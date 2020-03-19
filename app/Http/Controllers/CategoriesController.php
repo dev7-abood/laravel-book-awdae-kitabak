@@ -8,20 +8,15 @@ use App\Models\Categorie;
 
 class CategoriesController extends Controller
 {
-//    public function __construct()
-//    {
-//        $this->middleware('check_type_categories');
-//    }
 
-    public function index($cat)
+    public function index($id)
     {
-        $categories = Categorie::findOrFail($cat);
-        $library = $categories->librarys;
-//        ()->paginate(6);
 
-        return $library;
 
-//        return view('library' , compact('library'));
+        $categories = Categorie::findOrFail($id);
+        $library = $categories->librarys()->paginate(6);
+
+        return view('library' , compact('library'));
     }
 
 

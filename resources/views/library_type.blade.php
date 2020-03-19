@@ -10,7 +10,7 @@
                     <div class="text-center">
                         <strong> {{__('layout.courses')}} {{$library->name}}</strong>
                         <div class="mt-1">عدد الكتب المتاحة<span> 20 </span></div>
-                        <a href="{{route('library.index' , [ 'cat' => $library->pivot->categorie_id])}}" class="btn btn-{{$library->btn_color}} text-white mt-2 mb-3">عرض الكتب المتاحة</a>
+                        <a href="{{route('library.index' , [ 'id' => $library->pivot->categorie_id])}}" class="btn btn-{{$library->btn_color}} text-white mt-2 mb-3">عرض الكتب المتاحة</a>
                     </div>
                 </div>
             @endforeach

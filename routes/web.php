@@ -27,9 +27,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-
-Route::get('/library-type' , 'LibraryTypeController@index');
+Route::get('/library-type' , ['as' => 'library_type.index' , 'uses' => 'LibraryTypeController@index']);
 
 
 Route::get('/confirm-student-data' , ['as' => 'confirm_student_data.index' , 'uses' => 'ConfirmStudentDataController@index' , 'middleware' => 'is_not_confirmed']);
@@ -41,31 +39,22 @@ Route::group(['prefix' => '/confirm-student-data' , 'middleware' => 'auth'] , fu
 });
 
 
-Route::get('/categories/{cat}' , ['as' => 'library.index' , 'uses' => 'CategoriesController@index'])->middleware('check_type_categories');
+Route::get('/categories/{id}' , ['as' => 'library.index'  , 'uses' => 'CategoriesController@index'])->middleware('check_type_categories');
 
-Route::get('/hell' , function (){
-    $user = User::findOrFail(auth()->id());
-    $library_type = $user->categories;
 
-//    foreach ($library_type as  $index=>$lab){
-//        echo $lab->pivot->categorie_id;
-//    }
+Route::get('/library/{id_cta}/{id_lib}' , function ($id_cta,$id_lib){
 
-    $array = ['blue', 'red','green','red'];
+    $categories = Categorie::findOrFail($id_cta);
+    $library = $categories->librarys;
 
-    $key = in_array('gree', $array); // $key = 2;
 
-    if ($key == true){
-        echo "true";
-    }else {
-        echo "false";
+    $data = $library->map(function ($data){
+        return $data->pivot->library_id;
+    });
+
+
+    if (!in_array($id_lib , $data->toArray())){
+        return redirect('/');
     }
 
-
-//    echo "<br/>";
-//  echo  $key = array_search('red', $array);   // $key = 1;
-
-
-//    $library = Library::find(3);
-//    return $library->books;
 });

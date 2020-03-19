@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'is_not_confirmed' => \App\Http\Middleware\CheckUserIsNotConfirmed::class,
         'is_confirmed' => \App\Http\Middleware\CheckUserIsConfirmed::class,
-        'check_type_categories' => \App\Http\Middleware\CheckTypeCategories::class
+        'check_type_categories' => \App\Http\Middleware\CheckTypeCategories::class,
+        'check_type_library' => \App\Http\Middleware\CheckTypeLibrary::class
     ];
 }

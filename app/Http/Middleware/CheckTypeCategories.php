@@ -23,9 +23,9 @@ class CheckTypeCategories
             return $item->pivot->categorie_id;
         });
 
-        $route = $request->route('cat');
+        $route = $request->route('id');
         if (!in_array($route , $data->toArray())){
-            return redirect()->back();
+            return redirect()->route('library_type.index');
         }
         return $next($request);
     }

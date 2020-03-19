@@ -9,15 +9,8 @@ use App\Models\User;
 class LibraryTypeController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-
     public function index()
     {
-
         $user = User::findOrFail(auth()->id());
         $library_type = $user->categories;
 
