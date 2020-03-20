@@ -5,9 +5,11 @@
 <body>
 <x-navbar/>
 <main>
-    @yield('content')
+@yield('content')
 </main>
 <x-footer/>
+
 <script src="{{'/js/main_script/navbar.js'}}"></script>
+@yield('script')
 </body>
 </html>

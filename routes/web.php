@@ -42,19 +42,7 @@ Route::group(['prefix' => '/confirm-student-data' , 'middleware' => 'auth'] , fu
 Route::get('/categories/{id}' , ['as' => 'library.index'  , 'uses' => 'CategoriesController@index'])->middleware('check_type_categories');
 
 
-Route::get('/library/{id_cta}/{id_lib}' , function ($id_cta,$id_lib){
+Route::get('/library/{id_lib}/{id_cta}' , ['as' => 'books.index' , 'uses' => 'API\BookController@index']);
 
-    $categories = Categorie::findOrFail($id_cta);
-    $library = $categories->librarys;
+Route::view('/vue' , 'books');
 
-
-    $data = $library->map(function ($data){
-        return $data->pivot->library_id;
-    });
-
-
-    if (!in_array($id_lib , $data->toArray())){
-        return redirect('/');
-    }
-
-});

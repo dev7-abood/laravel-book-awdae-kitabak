@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
+use App\Models\Categorie;
 use Closure;
 
 class CheckTypeLibrary
@@ -29,7 +29,7 @@ class CheckTypeLibrary
         $id_lib = $request->route('id_lib');
 
         if (!in_array($id_lib , $data->toArray())){
-            return redirect('/');
+            return redirect()->route('library_type.index');
         }
         return $next($request);
 

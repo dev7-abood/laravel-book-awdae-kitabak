@@ -16,7 +16,7 @@
                 <strong class="mb-2" style="border-bottom: 2px solid green">{{$lib->name}}</strong>
                 <p class="mt-3">عدد الكتب المتاحة 302</p>
                 <p class="text-danger">عدد الكتب المحجوزة 30</p>
-                <a href="/books.html" class="d-block mt-2">عرض الكتب المتاحة</a>
+                <a href="{{route('books.index' , ['id_lib' => $lib->pivot->library_id , 'id_cta' => $lib->pivot->categorie_id])}}" class="d-block mt-2">عرض الكتب المتاحة</a>
             </div>
         </div>
 @endforeach
