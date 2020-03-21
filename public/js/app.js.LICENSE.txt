@@ -35,6 +35,12 @@
  * Date: 2019-05-01T21:04Z
  */
 
+/*!
+ * vue-i18n v8.15.5 
+ * (c) 2020 kazuya kawaguchi
+ * Released under the MIT License.
+ */
+
 /**
  * @license
  * Lodash <https://lodash.com/>
@@ -42,6 +48,12 @@
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/**
+ * vuex v3.1.3
+ * (c) 2020 Evan You
+ * @license MIT
  */
 
 /**!
