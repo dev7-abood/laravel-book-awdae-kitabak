@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import axios from 'axios';
 
 
-Vue.use(Vuex);
+Vue.use(Vuex , axios);
 
 
 const debug = process.env.NODE_ENV !== 'production';
@@ -10,7 +11,8 @@ const debug = process.env.NODE_ENV !== 'production';
 
 export const store = new Vuex.Store({
     state : {
-        go : 'hell'
+
+
     },
     modules: {
 
@@ -18,11 +20,11 @@ export const store = new Vuex.Store({
     actions : {
 
     },
-    getters : {
-
-    },
     mutations : {
 
     },
+    getters : {
+
+    },
     strict: debug,
-})
+});

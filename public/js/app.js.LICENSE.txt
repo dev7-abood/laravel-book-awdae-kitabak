@@ -35,12 +35,6 @@
  * Date: 2019-05-01T21:04Z
  */
 
-/*!
- * vue-i18n v8.15.5 
- * (c) 2020 kazuya kawaguchi
- * Released under the MIT License.
- */
-
 /**
  * @license
  * Lodash <https://lodash.com/>

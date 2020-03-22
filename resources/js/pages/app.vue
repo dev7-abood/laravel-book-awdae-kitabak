@@ -1,14 +1,14 @@
 <template>
 <div>
-    <navbar-component :src_logo="src_logo" :src_add_book="src_add_book"/>
-    <footer-component :src_logo="src_logo"></footer-component>
+    <navbar-component :info="info" :src_logo="src_logo" :src_add_book="src_add_book"/>
+    <footer-component :info="info" :src_logo="src_logo"></footer-component>
 
 </div>
 </template>
 
 <script>
     export default {
-        props : ['src_logo','src_add_book'],
+        props : ['src_logo','src_add_book' , 'info'],
         name: "app"
     }
 </script>

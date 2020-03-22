@@ -4,36 +4,31 @@
         <div id="nav-background">
             <div id="nav-container">
                 <header id="nav-header">
-
-                    <a v-if="isAuth && isConfirmed" type="button" href="#"
+                    <a v-if="data.is_auth && data.is_confirmed" type="button" href="#"
                        class="btn btn-outline-secondary ml-2 text-white">{{$t('add_book')}}&nbsp;<img style="display: inline-block;width: 25px"
                                                                                                       :src="src_add_book"></a>
-                    <div v-if="isConfirmed" class="dropdown ml-3">
+                    <div v-if="data.is_confirmed" class="dropdown ml-3">
                         <a type="button" data-toggle="dropdown" class="font-weight-bolder text-white"
-                           aria-haspopup="true" aria-expanded="false" v-html="`${full_name}&nbsp; <i class='fas fa-caret-down'></i>`">
+                           aria-haspopup="true" aria-expanded="false" v-html="`${data.full_name}&nbsp; <i class='fas fa-caret-down'></i>`">
                         </a>
                         <div  class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="#">{{$t('my_data')}}</a>
                             <a class="dropdown-item" href="#">{{$t('my_interests')}}</a>
-                            <a class="dropdown-item" href="#">{{$t('my_reservations')}}</a>
+                            <router-link to="/home/hell" class="dropdown-item" href="#">{{$t('my_reservations')}}</router-link>
                             <div class="dropdown-divider"></div>
-                            <a  class="dropdown-item" href="#"
-                               onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                            <button class="dropdown-item" @click="logout">
                                 {{$t('logout')}}
-                            </a>
+                            </button>
                         </div>
                     </div>
-{{cc}}
-                    <a v-if="isAuth && !isConfirmed" class="font-weight-bold text-white ml-2" href="#"
-                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+
+                    <button v-if="data.is_auth && !data.is_confirmed" class="btn btn-link font-weight-bold text-white ml-2" @click="logout">
                         {{$t('logout')}}
-                    </a>
+                    </button>
 
-                        <button v-if="!isAuth" type="button" class="btn btn-secondary mr-3">{{$t('login')}}</button>
-                        <button v-if="!isAuth" type="button"
+                        <button v-if="!data.is_auth" type="button" class="btn btn-secondary mr-3">{{$t('login')}}</button>
+                        <button v-if="!data.is_auth" type="button"
                                 class="btn btn-outline-info ml-3 mr-2">{{$t('register_new_account')}}</button>
-
 
                     <div v-on:click="isActive = !isActive" id="nav-menu-button"><i class="fas fa-bars"></i></div>
                 </header>
@@ -48,49 +43,29 @@
                 </nav>
             </div>
         </div>
-        <form id="logout-form" action="#" method="POST" style="display: none;">
-
-        </form>
     </nav>
 </template>
 
 <script>
     export default {
         name: "NavbarComponent",
-        props : ['src_add_book' , 'src_logo'],
+        props : ['src_add_book' , 'src_logo' , 'info'],
         data() {
             return {
                 isActive: false,
-                isAuth : true,
-                isConfirmed : true,
-                full_name : '',
-
-
             }
         },
-        created() {
-            this.check_auth();
-            this.check_confirmed();
-            this.full_name_md();
-        },
         methods : {
-            check_auth(){
-                axios.get('/check-data/is_auth')
-                .then(res => this.isAuth = res.data.is_auth)
-            },
-            check_confirmed(){
-                axios.get('/check-data/is_confirmed')
-                    .then(res => this.isConfirmed = res.data.is_confirmed)
-            },
-            full_name_md(){
-                axios.get('/check-data/full_name')
-                    .then(res => this.full_name = res.data.full_name)
-            },
-
+            logout(){
+                axios.post('/logout')
+                .then(setTimeout(() => {
+                    location.reload()
+                } , 1500))
+            }
         },
         computed : {
-            cc(){
-                return this.$store.state.go
+            data(){
+                return JSON.parse(this.info)
             }
         }
     }

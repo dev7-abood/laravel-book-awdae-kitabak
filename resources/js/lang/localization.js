@@ -19,7 +19,7 @@ export const i18n = new VueI18n({
             logout                    :'تسجيل الخروج',
             login                     : 'تسجيل الدخول',
             register_new_account      : 'انشاء حساب',
-            categories                : 'التصنيف',
+            categories                : 'المساقات',
             usage_policy              : 'سياسة الاستخدام',
             about_us                  : 'من نحن',
             courses                   : 'مساقات'

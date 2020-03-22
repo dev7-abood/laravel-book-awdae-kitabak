@@ -44,18 +44,7 @@ Route::get('/categories/{id}' , ['as' => 'library.index'  , 'uses' => 'Categorie
 
 Route::get('/library/{id_lib}/{id_cta}' , ['as' => 'books.index' , 'uses' => 'API\BookController@index']);
 
-Route::view('/vue' , 'layouts.app_vue');
 
-Route::get('/test' , function (){
-   if (auth()->check()){
-       return "true";
-   }
-   return "false";
-});
+Route::get('/home/{vue_capture?}' , 'VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
 
-Route::group(['prefix' => '/check-data'] , function (){
-    Route::get('/is_auth' ,[ 'uses' => 'Web\CheckDataController@is_auth']);
-    Route::get('/is_confirmed' ,[ 'uses' => 'Web\CheckDataController@is_confirmed']);
-    Route::get('/full_name' ,[ 'uses' => 'Web\CheckDataController@full_name']);
 
-});

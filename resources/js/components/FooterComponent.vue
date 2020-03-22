@@ -8,7 +8,7 @@
                 <a class="text-white h4 m-2" href="#"><i class="fab fa-whatsapp"></i></a>
                 <a class="text-white h4 m-2" href="#"><i class="fas fa-globe-africa"></i></a>
             </div>
-            {{$t('footer_copyrights')}} {{$year-1}} - {{$year}}
+            {{$t('footer_copyrights')}} 2019 - {{y.year}}
         </div>
     </div>
 </footer>
@@ -16,8 +16,14 @@
 
 <script>
     export default {
-        props : ['src_logo'],
-        name: "FooterComponent"
+        props : ['src_logo' , 'info'],
+        name: "FooterComponent",
+        computed : {
+            y(){
+                return  JSON.parse(this.info)
+            }
+
+        }
     }
 </script>
 
