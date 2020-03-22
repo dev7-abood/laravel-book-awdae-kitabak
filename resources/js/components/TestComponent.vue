@@ -1,14 +1,8 @@
 <template>
 <div>
+
     <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <button type="button" @click="increment()">increment </button>
+    <button type="button" @click="increment(5)">increment </button>
 </div>
 </template>
 
@@ -16,8 +10,8 @@
     export default {
         name: "test",
         methods : {
-            increment(){
-                this.$store.commit('increment')
+            increment(data){
+                this.$store.commit('increment' , data)
                 console.log(this.$store.state.count)
             }
         }

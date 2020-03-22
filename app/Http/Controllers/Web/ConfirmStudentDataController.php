@@ -20,7 +20,7 @@ class ConfirmStudentDataController extends Controller
     {
         $categories = Categorie::select('id' , 'name')->whereNotIn('name_shorthand' , ['db'])->get();
 
-        return view('confirm_student_data' , compact('categories'));
+        return view('confirmStudentData' , compact('categories'));
     }
 
     /**

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Categorie;
 
 
-class CategoriesController extends Controller
+class LibraryController extends Controller
 {
 
     public function index($id)

@@ -8,7 +8,8 @@
                 <a class="text-white h4 m-2" href="#"><i class="fab fa-whatsapp"></i></a>
                 <a class="text-white h4 m-2" href="#"><i class="fas fa-globe-africa"></i></a>
             </div>
-            {{$t('footer_copyrights')}} 2019 - {{y.year}}
+            {{$t('footer_copyrights')}} 2019 - {{y.year}} {{ff}}
+
         </div>
     </div>
 </footer>
@@ -21,6 +22,10 @@
         computed : {
             y(){
                 return  JSON.parse(this.info)
+            },
+            ff(){
+                return this.$store.state.count
+
             }
 
         }

@@ -27,10 +27,10 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('/library-type' , ['as' => 'library_type.index' , 'uses' => 'LibraryTypeController@index']);
+Route::get('/category' , ['as' => 'category.index' , 'uses' => 'CategoryController@index']);
 
 
-Route::get('/confirm-student-data' , ['as' => 'confirm_student_data.index' , 'uses' => 'ConfirmStudentDataController@index' , 'middleware' => 'is_not_confirmed']);
+Route::get('/confirm-student-data' , ['as' => 'confirm_student_data.index' , 'uses' => 'Web\ConfirmStudentDataController@index' , 'middleware' => 'is_not_confirmed']);
 
 
 Route::group(['prefix' => '/confirm-student-data' , 'middleware' => 'auth'] , function (){
@@ -39,10 +39,10 @@ Route::group(['prefix' => '/confirm-student-data' , 'middleware' => 'auth'] , fu
 });
 
 
-Route::get('/categories/{id}' , ['as' => 'library.index'  , 'uses' => 'CategoriesController@index'])->middleware('check_type_categories');
+Route::get('/library/{id}' , ['as' => 'library.index'  , 'uses' => 'LibraryController@index'])->middleware('check_type_categories');
 
 
-Route::get('/library/{id_lib}/{id_cta}' , ['as' => 'books.index' , 'uses' => 'API\BookController@index']);
+Route::get('/books/{id_lib}/{id_cta}' , ['as' => 'books.index' , 'uses' => 'API\BookController@index']);
 
 
 Route::get('/home/{vue_capture?}' , 'VueAppController@index')->where('vue_capture', '[\/\w\.-]*');

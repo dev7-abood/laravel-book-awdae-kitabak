@@ -6,14 +6,14 @@ use App\Models\Categorie;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-class LibraryTypeController extends Controller
+class CategoryController extends Controller
 {
 
     public function index()
     {
         $user = User::findOrFail(auth()->id());
-        $library_type = $user->categories;
+        $category = $user->categories;
 
-        return view('library_type' , compact('library_type'));
+        return view('category' , compact('category'));
     }
 }

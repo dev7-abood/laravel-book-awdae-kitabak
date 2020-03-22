@@ -6,12 +6,12 @@ import axios from 'axios';
 Vue.use(Vuex , axios);
 
 
-const debug = process.env.NODE_ENV !== 'production';
+// const debug = process.env.NODE_ENV !== 'production'
 
 
 export const store = new Vuex.Store({
     state : {
-
+        count : 0
 
     },
     modules: {
@@ -21,10 +21,12 @@ export const store = new Vuex.Store({
 
     },
     mutations : {
-
+        increment(state , data){
+            return state.count +=data
+        }
     },
     getters : {
 
     },
-    strict: debug,
+    strict: true
 });

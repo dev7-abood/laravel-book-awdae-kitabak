@@ -39,7 +39,7 @@ class VueAppController extends Controller
                   $data['is_confirmed'] = true;
             }
 
-            return view('layouts.app_vue' , compact('data'));
+            return view('layouts.appVue' , compact('data'));
 
         }
 
