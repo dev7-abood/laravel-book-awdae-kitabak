@@ -20,12 +20,13 @@ export const i18n = new VueI18n({
             login                     : 'تسجيل الدخول',
             register_new_account      : 'انشاء حساب',
             categories                : 'المساقات',
+            categorie                : 'مساقات',
             usage_policy              : 'سياسة الاستخدام',
             about_us                  : 'من نحن',
             courses                   : 'مساقات'
         },
         en : {
-            hell : 'fuck'
+            hell : 'confirmStudentDataController'
         }
     }
 });

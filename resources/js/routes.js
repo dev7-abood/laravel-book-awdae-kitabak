@@ -1,11 +1,10 @@
-
-
-
+import Library from "./components/LibraryComponent";
 
 
 export const routes = [
     {
-        path : '/home/hell',
-        // component : GO
+        path : '/library/:libraryId',
+        name : 'library',
+        component : Library
     }
 ];

@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 
@@ -17,25 +15,31 @@ use Illuminate\Http\Request;
 |
 */
 
-use App\Models\Library;
-use App\Models\Categorie;
-use App\Models\User;
-use App\Models\Book;
-
 Route::get('/', function () {
     return view('welcome');
 });
 
 Auth::routes();
+
 Route::get('/category' , ['as' => 'category.index' , 'uses' => 'CategoryController@index']);
 
 
-Route::get('/confirm-student-data' , ['as' => 'confirm_student_data.index' , 'uses' => 'Web\ConfirmStudentDataController@index' , 'middleware' => 'is_not_confirmed']);
+Route::group(['prefix' => '/api/'] , function (){
+    Route::post('/logout' , function (Request $request){
+        if ($request->ajax()){
+            auth()->logout();
+        }
+    });
+    Route::get('category' , ['as' => 'category' , 'uses' => 'API\CategoryController@getCategoryTypeStudent']);
+    Route::get('/library/{id}' , ['as' => 'getLibraryTypeStudent.index'  , 'uses' => 'API\LibraryController@getLibraryTypeStudent'])
+        ->middleware('check_type_categories');
+    Route::get('/book-number-available' , ['as' => 'numberOfBooksAvailable.index'  , 'uses' => 'API\LibraryController@numberOfBooksAvailable']);
+});
 
 
 Route::group(['prefix' => '/confirm-student-data' , 'middleware' => 'auth'] , function (){
-    Route::get('/' ,['middleware' => 'is_not_confirmed' , 'as' => 'confirm_student_data.index' , 'uses' => 'ConfirmStudentDataController@index']);
-    Route::post('/',['middleware' => 'is_not_confirmed' , 'as' => 'confirm_student_data.store' , 'uses' => 'ConfirmStudentDataController@store']);
+    Route::get('/' ,['middleware' => 'is_not_confirmed' , 'as' => 'confirm_student_data.index' , 'uses' => 'WEB\ConfirmStudentDataController@index']);
+    Route::post('/',['middleware' => 'is_not_confirmed' , 'as' => 'confirm_student_data.store' , 'uses' => 'WEB\ConfirmStudentDataController@store']);
 });
 
 

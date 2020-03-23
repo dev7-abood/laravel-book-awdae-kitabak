@@ -52,7 +52,7 @@
         props : ['src_add_book' , 'src_logo' , 'info'],
         data() {
             return {
-                isActive: false,
+                isActive: true,
             }
         },
         methods : {

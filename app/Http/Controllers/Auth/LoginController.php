@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/library-type';
+    protected $redirectTo = '/category';
 //    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
