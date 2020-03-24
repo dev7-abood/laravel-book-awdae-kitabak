@@ -15,6 +15,7 @@ class NumberOfBooksController extends Controller
     {
         if ($request->ajax())
         {
+            //g
             $user = User::findOrFail(auth()->id() || auth('api')->id());
             $category = $user->categories;
             $data = $category->map(function ($i){
