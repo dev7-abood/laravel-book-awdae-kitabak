@@ -67,9 +67,8 @@ class ConfirmStudentDataController extends Controller
         //
     }
 
-
+//احلى تحية من كارم الدالي الي المبرمجين عبد الرحمن حرزالله و عبد الجليل البابا و عصام صلاح و محمود عدوان ابراهيم الصفدي
     public function destroy($id)
     {
-        //
     }
 }

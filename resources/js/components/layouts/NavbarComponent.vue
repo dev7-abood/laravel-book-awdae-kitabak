@@ -60,7 +60,7 @@
                 axios.post('/logout')
                 .then(setTimeout(() => {
                     location.reload()
-                } , 1500))
+                } , 1000))
             }
         },
         computed : {

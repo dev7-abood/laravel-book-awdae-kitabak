@@ -23,7 +23,8 @@ export const i18n = new VueI18n({
             categorie                : 'مساقات',
             usage_policy              : 'سياسة الاستخدام',
             about_us                  : 'من نحن',
-            courses                   : 'مساقات'
+            courses                   : 'مساقات',
+            number_of_books_available_for_reservation  : 'عدد الكتب المتاحة للحجز'
         },
         en : {
             hell : 'confirmStudentDataController'

@@ -26,20 +26,33 @@ class LibraryController extends Controller
     }
 
 
-    public function numberOfBooksAvailable()
+    public function numberOfBooks($id , Request $request)
     {
-        $library = Library::find(4);
-        $books_count_number_available = $library->books->whereNull('user_id')->count();
-        $total_count_number_books = $library->books->count();
-        $library = $library->books;
 
-        return response([['book count' =>$library_count] , $library]);
+        $categories = Categorie::findOrFail($id);
+        $library = $categories->librarys()->paginate(6);
+
+//        return $library;
+
+
+
+
+
+        $library = Library::find($id);
+            $number_of_available_books = $library->books->whereNull('user_id')->count();
+            $number_of_reserved_books = $library->books->whereNotNull('user_id')->count();
+            $total_number_of_books = $library->books->count();
+
+            return response(
+                [
+                    'books' => $library->books,
+                    'number_of_available_books' => $number_of_available_books,
+                    'number_of_reserved_books' => $number_of_reserved_books,
+                    'total_number_of_books' => $total_number_of_books,
+                ]
+            );
 
     }
 
-    public function numberOfBooksNotAvailable()
-    {
-
-    }
 
 }

@@ -15,25 +15,59 @@ use Illuminate\Http\Request;
 |
 */
 
+use App\Models\User;
+use App\Models\Categorie;
+use App\Models\Library;
+use App\Models\Book;
+
+
+Route::get('/total-books-available',
+    function () {
+      $categorie = Categorie::findOrFail(1);
+      $librarys_id = $categorie->librarys->map(function ($i) {
+            return $i->pivot->library_id;
+        });
+
+
+     $count = 0;
+     foreach ($librarys_id as $id)
+     {
+         $library =  Library::findOrFail($id);
+         $count = $library->books->whereNull('user_id')->count() + $count;
+     }
+     return response(['total_number_of_books_available_for_categorie' => $count]);
+    });
+
+
+
+
+
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 Auth::routes();
-
+//
 Route::get('/category' , ['as' => 'category.index' , 'uses' => 'CategoryController@index']);
 
 
 Route::group(['prefix' => '/api/'] , function (){
     Route::post('/logout' , function (Request $request){
         if ($request->ajax()){
-            auth()->logout();
+          auth()->logout();
         }
     });
-    Route::get('category' , ['as' => 'category' , 'uses' => 'API\CategoryController@getCategoryTypeStudent']);
-    Route::get('/library/{id}' , ['as' => 'getLibraryTypeStudent.index'  , 'uses' => 'API\LibraryController@getLibraryTypeStudent'])
-        ->middleware('check_type_categories');
-    Route::get('/book-number-available' , ['as' => 'numberOfBooksAvailable.index'  , 'uses' => 'API\LibraryController@numberOfBooksAvailable']);
+    Route::get('/category' , ['as' => 'category' , 'uses' => 'API\CategoryController@getCategoryTypeStudent']);
+    Route::get('/library/{id}/{vue_capture?}' , ['as' => 'getLibraryTypeStudent.index'  , 'uses' => 'API\LibraryController@getLibraryTypeStudent']);
+    Route::get('/number-of-books/{id}' , ['as' => 'numberOfBooks.index'  , 'uses' => 'API\LibraryController@numberOfBooks']);
+});
+
+
+
+Route::group(['prefix' => '/'] , function (){
+    Route::get('/home/{vue_capture?}' , 'VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
+    Route::get('/library/{id}/{vue_capture?}' , 'VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
 });
 
 
@@ -43,12 +77,13 @@ Route::group(['prefix' => '/confirm-student-data' , 'middleware' => 'auth'] , fu
 });
 
 
-Route::get('/library/{id}' , ['as' => 'library.index'  , 'uses' => 'LibraryController@index'])->middleware('check_type_categories');
+Route::get('/library/{id}' , ['as' => 'library.index' , 'uses' => 'LibraryController@index']);
 
 
 Route::get('/books/{id_lib}/{id_cta}' , ['as' => 'books.index' , 'uses' => 'API\BookController@index']);
 
 
-Route::get('/home/{vue_capture?}' , 'VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
+Route::get('/api/total-number-of-category' , ['as' => 'totalNumberOfCategory.count' , 'uses' => 'API\NumberOfBooksController@totalNumberOfCategory']);
 
 
+Route::get('/test/{id}' , 'API\NumberOfBooksController@totalNumberOfLibrary');

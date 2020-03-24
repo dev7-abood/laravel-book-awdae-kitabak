@@ -4,8 +4,8 @@ import Vue from 'vue';
 import Vuex from 'vuex'
 import VueRouter from "vue-router";
 
-import { store } from './store/index';
-import { routes } from './routes';
+import {store} from './store/index';
+import {routes} from './routes';
 import {i18n} from "./lang/localization";
 
 
@@ -27,7 +27,7 @@ Vue.component('navbar-component', require('./components/layouts/NavbarComponent.
 Vue.component('footer-component', require('./components/layouts/FooterComponent.vue').default);
 
 Vue.component('category-component', require('./components/CategoryComponent.vue').default);
-Vue.component('app-component', require('./pages/app.vue').default);
+Vue.component('app-component', require('./App/app.vue').default);
 
 
 const app = new Vue({

@@ -1,32 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios';
-
-
-Vue.use(Vuex , axios);
-
+Vue.use(Vuex);
 
 // const debug = process.env.NODE_ENV !== 'production'
+import books from "./modules/books";
+
 
 
 export const store = new Vuex.Store({
-    state : {
-        count : 0
-
-    },
     modules: {
-
-    },
-    actions : {
-
-    },
-    mutations : {
-        increment(state , data){
-            return state.count +=data
-        }
-    },
-    getters : {
-
+        books
     },
     strict: true
 });
