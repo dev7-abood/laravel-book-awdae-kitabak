@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
 
+use App\Models\User;
 use App\Models\Categorie;
 use App\Models\Library;
+use App\Models\Book;
 
 class NumberOfBooksController extends Controller
 {
@@ -15,7 +16,7 @@ class NumberOfBooksController extends Controller
     {
         if ($request->ajax())
         {
-            //g
+
             $user = User::findOrFail(auth()->id() || auth('api')->id());
             $category = $user->categories;
             $data = $category->map(function ($i){
@@ -41,28 +42,50 @@ class NumberOfBooksController extends Controller
         return abort('404');
     }
 
-    public function totalNumberOfLibrary($id)
+    public function numberOfBooksNotAvailableFromLibrary(Request $request)
     {
-//        $categories = Categorie::findOrFail($id);
-//        $library = $categories->librarys;
+        if ($request->ajax())
+        {
+            $library_id = Book::select('library_id')->distinct('library_id')->get();
 
+            $ids = [];
+            $book_number = [];
+            foreach ($library_id as $id)
+            {
+                array_push($ids , $id->library_id);
+            }
 
-
-        $library = Library::find($id);
-        $number_of_available_books = $library->books->whereNull('user_id')->count();
-        $number_of_reserved_books = $library->books->whereNotNull('user_id')->count();
-        $total_number_of_books = $library->books->count();
-
-        return response(
-            [
-                'books' => $library->books,
-                'number_of_available_books' => $number_of_available_books,
-                'number_of_reserved_books' => $number_of_reserved_books,
-                'total_number_of_books' => $total_number_of_books,
-            ]
-        );
+            foreach ($ids as $id){
+                $book = Book::where('library_id' , '=' , $id)->whereNotNull('user_id')->count();
+                $book_number[$id] = $book;
+            }
+            return response($book_number , 200);
+        }
+        return abort(404);
     }
 
+
+    public function numberOfBooksAvailableFromLibrary(Request $request)
+    {
+        if ($request->ajax())
+        {
+            $library_id = Book::select('library_id')->distinct('library_id')->get();
+
+            $ids = [];
+            $book_number = [];
+            foreach ($library_id as $id)
+            {
+                array_push($ids , $id->library_id);
+            }
+
+            foreach ($ids as $id){
+                $book = Book::where('library_id' , '=' , $id)->whereNull('user_id')->count();
+                $book_number[$id] = $book;
+            }
+            return response($book_number , 200);
+        }
+        return abort(404);
+    }
 
 
 }

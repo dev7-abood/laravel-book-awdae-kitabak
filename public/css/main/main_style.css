@@ -116,7 +116,7 @@ body {
 
 
 /* MOBILE MENU */
-@media screen and (max-width: 916px) {
+@media screen and (max-width: 950px) {
 
     #nav-container {
         -webkit-box-orient: vertical;
@@ -162,7 +162,7 @@ body {
 /* END MOBILE MENU */
 
 /* DESKTOP MENU */
-@media screen and (min-width: 917px) {
+@media screen and (min-width: 950px) {
 
     #nav-menu-button {
         display: none;
@@ -199,6 +199,7 @@ body {
     border-style: solid;
     border-width: 4px 0 0 0;
     color: white;
+    z-index: 30;
 }
 
 .disabled {

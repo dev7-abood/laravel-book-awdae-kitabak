@@ -20,7 +20,7 @@ class CheckUserIsConfirmed
 
         if ($user->is_confirmed == null || $user->is_confirmed == 0)
         {
-            return redirect()->route('confirm_student_data.index');
+            return redirect()->route('confirmStudentData.index');
         }
         return $next($request);
     }

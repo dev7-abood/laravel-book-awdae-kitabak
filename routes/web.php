@@ -50,8 +50,7 @@ Route::get('/', function () {
 Auth::routes();
 //
 Route::get('/category' , ['as' => 'category.index' , 'uses' => 'CategoryController@index']);
-
-
+//
 Route::group(['prefix' => '/api/'] , function (){
     Route::post('/logout' , function (Request $request){
         if ($request->ajax()){
@@ -60,18 +59,19 @@ Route::group(['prefix' => '/api/'] , function (){
     });
     Route::get('/category' , ['as' => 'category' , 'uses' => 'API\CategoryController@getCategoryTypeStudent']);
     Route::get('/library/{id}/{vue_capture?}' , ['as' => 'getLibraryTypeStudent.index'  , 'uses' => 'API\LibraryController@getLibraryTypeStudent']);
-    Route::get('/number-of-books/{id}' , ['as' => 'numberOfBooks.index'  , 'uses' => 'API\LibraryController@numberOfBooks']);
+    Route::get('/number-of-available-books-from-library' , ['as' => 'numberOfBooksAvailableFromLibrary.index'  , 'uses' => 'API\NumberOfBooksController@numberOfBooksAvailableFromLibrary']);
+    Route::get('/number-of-not-available-books-from-library' , ['as' => 'numberOfBooksNotAvailableFromLibrary.index'  , 'uses' => 'API\NumberOfBooksController@numberOfBooksNotAvailableFromLibrary']);
 });
 
 
 
 Route::group(['prefix' => '/'] , function (){
-    Route::get('/home/{vue_capture?}' , 'VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
-    Route::get('/library/{id}/{vue_capture?}' , 'VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
+    Route::get('/home/{vue_capture?}' , 'web\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
+    Route::get('/library/{id}/{vue_capture?}' , 'web\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
 });
 
 
-Route::group(['prefix' => '/confirm-student-data' , 'middleware' => 'auth'] , function (){
+Route::group(['prefix' => '/confirm-student-data'] , function (){
     Route::get('/' ,['middleware' => 'is_not_confirmed' , 'as' => 'confirm_student_data.index' , 'uses' => 'WEB\ConfirmStudentDataController@index']);
     Route::post('/',['middleware' => 'is_not_confirmed' , 'as' => 'confirm_student_data.store' , 'uses' => 'WEB\ConfirmStudentDataController@store']);
 });
@@ -86,4 +86,10 @@ Route::get('/books/{id_lib}/{id_cta}' , ['as' => 'books.index' , 'uses' => 'API\
 Route::get('/api/total-number-of-category' , ['as' => 'totalNumberOfCategory.count' , 'uses' => 'API\NumberOfBooksController@totalNumberOfCategory']);
 
 
-Route::get('/test/{id}' , 'API\NumberOfBooksController@totalNumberOfLibrary');
+Route::get('/test' , function (){
+    $posts = Library::withCount('name')->get();
+
+    foreach ($posts as $post) {
+        echo $post->name_count;
+    }
+});

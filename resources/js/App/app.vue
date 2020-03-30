@@ -4,7 +4,6 @@
     <navbar-component :info="info" :src_logo="src_logo" :src_add_book="src_add_book"/>
     <footer-component :info="info" :src_logo="src_logo"></footer-component>
     <router-view></router-view>
-
 </div>
 </template>
 

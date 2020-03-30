@@ -1,15 +1,18 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import  Vue from 'vue';
+import  Vuex from 'vuex';
+import  books from "./modules/books";
+import library from "./modules/library";
+
 Vue.use(Vuex);
 
-// const debug = process.env.NODE_ENV !== 'production'
-import books from "./modules/books";
+// const debug = process.env.NODE_ENV !== 'production';
 
 
 
-export const store = new Vuex.Store({
+export default new Vuex.Store({
     modules: {
-        books
+        books,
+        library
     },
     strict: true
 });

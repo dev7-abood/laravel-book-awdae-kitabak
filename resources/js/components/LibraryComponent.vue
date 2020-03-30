@@ -10,13 +10,14 @@
         <!--        <div class="d-flex justify-content-center mt-3">{{ $library->links() }}</div>-->
 
         <div class="row mx-md-n4">
-
-            <div class="col-md-4 mt-lg-2 px-md-2 mt-2">
+            <div  v-for="lib in librarys.data" :key="lib.id" class="col-md-4 mt-lg-2 px-md-2 mt-2">
                 <div class="p-4 bg-white text-center" style="border-radius: 10px">
-                    <strong class="mb-2" style="border-bottom: 2px solid green">الفقه المنهجي</strong>
-                    <p class="mt-3">عدد الكتب المتاحة 302</p>
-                    <p class="text-danger">عدد الكتب المحجوزة 30</p>
-                    <a href="" class="d-block mt-2">عرض الكتب المتاحة</a>
+                    <strong class="mb-2" style="border-bottom: 2px solid green">{{lib.name}}</strong>
+                    <p v-if="numberOfAvailableBooks[lib.pivot.library_id] !== 0" class="mt-3 text-success font-weight-bold">{{$t('number_of_books_available')}} {{numberOfAvailableBooks[lib.pivot.library_id]}}</p>
+                    <P v-else style="color: #b2bec3">{{$t('sorry_no_books_available')}}</P>
+                    <p v-if="numberOfNotAvailableBooks[lib.pivot.library_id] !== 0" class="text-secondary font-weight-bold">{{$t('number_of_not_books_available')}} {{numberOfNotAvailableBooks[lib.pivot.library_id]}}</p>
+                    <P v-else style="color: #b2bec3" class="font-weight-bold">{{$t('there_are_no_books_reserved')}}</P>
+                    <a href="" class="d-block text-danger mt-1">{{$t('show_books')}}</a>
                 </div>
             </div>
 
@@ -27,39 +28,34 @@
 <script>
     export default {
         name: "LibraryComponent",
-        data(){
+        data() {
             return {
-                lib : [],
-                number_of_books : [],
-                id : '',
-                hell : "hell"
+
             }
         },
         created() {
-            this.library
-            // this.number_of_books
-            this.number_book
+            this.getLibrary();
+        },
+        mounted(){
+            this.$store.dispatch('numberOfAvailableBooks');
+            this.$store.dispatch('numberOfNotAvailableBooks');
+        },
+        methods: {
+            getLibrary() {
+                this.$store.dispatch('getLibrary' , this.$route.params.libraryId)
+            },
         },
         computed : {
-            // numberOfBooks(){
-            //     axios.get(`/number-of-books/${this.id}`)
-            //     .then(res => console.log(res.data))
-            // },
-            library(){
-                axios.get(`/library/${this.$route.params.libraryId}`)
-                    .then(res => console.log(res.data))
-                .catch(err => {
-                    if (err.response.status === 404){
-                        console.log("back")
-                    }
-                })
+            librarys(){
+                return this.$store.state.library.librarys;
             },
-            number_book(){
-                this.$store.dispatch('numberOfBooks' , this.$route.params.libraryId);
-                console.log(this.$store.state.number_books_d)
+            numberOfAvailableBooks(){
+                return this.$store.state.books.numberOfAvailableBooks;
+            },
+            numberOfNotAvailableBooks(){
+                return this.$store.state.books.numberOfNotAvailableBooks;
             }
-        }
-
+        },
     }
 </script>
 

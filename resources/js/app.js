@@ -4,7 +4,7 @@ import Vue from 'vue';
 import Vuex from 'vuex'
 import VueRouter from "vue-router";
 
-import {store} from './store/index';
+import store from './store/index';
 import {routes} from './routes';
 import {i18n} from "./lang/localization";
 

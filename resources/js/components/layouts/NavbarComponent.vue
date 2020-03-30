@@ -33,12 +33,13 @@
                     <div v-on:click="isActive = !isActive" id="nav-menu-button"><i class="fas fa-bars"></i></div>
                 </header>
                 <nav>
-                    <ul :class="[{ 'hide-ul' : isActive }, 'nav-ul']">
-                        <li><img :src="src_logo" class="ml-3 p-1" width="55px"></li>
-                        <li><a class="nav-link active-link" href="#"><i class="fas fa-home"></i></a></li>
-                        <li><a class="nav-link" href="#">{{$t('categories')}}</a></li>
-                        <li><a class="nav-link" href="#">{{$t('usage_policy')}}</a></li>
-                        <li><a class="nav-link" href="#">{{$t('about_us')}}</a></li>
+                    <ul :class="[{'hide-ul' : isActive } , 'nav-ul']">
+                        <li @click="isActive =!isActive"><img :src="src_logo" class="ml-3 p-1" width="55px"></li>
+                        <li @click="isActive =!isActive"><a class="nav-link active-link" href="#"><i class="fas fa-home"></i></a></li>
+                        <li @click="isActive =!isActive"><router-link :to="{name : 'my_library'}" class="nav-link">{{$t('my_library')}}</router-link></li>
+                        <li @click="isActive =!isActive"><router-link :to="{name : 'my_library'}" class="nav-link">المساقات الاخري</router-link></li>
+                        <li @click="isActive =!isActive"><router-link :to="{name : 'my_library'}" class="nav-link">{{$t('usage_policy')}}</router-link></li>
+                        <li @click="isActive =!isActive"><router-link :to="{name : 'my_library'}" class="nav-link">{{$t('about_us')}}</router-link></li>
                     </ul>
                 </nav>
             </div>
