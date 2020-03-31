@@ -26,7 +26,6 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.12.1",
         "laravel-echo": "^1.6.1",
-        "laravel-vue-pagination": "^2.3.1",
         "pusher-js": "^5.1.1",
         "vue-i18n": "^8.16.0",
         "vue-router": "^3.1.6",

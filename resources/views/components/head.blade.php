@@ -10,6 +10,9 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <!-- font Style -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap" rel="stylesheet">
+
     <!-- main Style -->
     <link href="{{asset('css/main/main_style.css')}}" rel="stylesheet">
 

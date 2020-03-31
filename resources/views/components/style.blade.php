@@ -1,7 +1,6 @@
 <style>
     body{
-    @import url('https://fonts.googleapis.com/css?family=Cairo&display=swap');
-        font-family: 'Cairo', serif; !important;
+        font-family: 'Cairo', sans-serif;
         font-size: 14.5px;
     }
     .row {

@@ -2019,6 +2019,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "LibraryComponent",
   data: function data() {
@@ -2032,8 +2049,9 @@ __webpack_require__.r(__webpack_exports__);
     this.$store.dispatch('numberOfNotAvailableBooks');
   },
   methods: {
-    getLibrary: function getLibrary() {
-      this.$store.dispatch('getLibrary', this.$route.params.libraryId);
+    getLibrary: function getLibrary(page) {
+      page = page || 1;
+      this.$store.dispatch('getLibrary', "".concat(this.$route.params.libraryId, "?page=").concat(page));
     }
   },
   computed: {
@@ -49628,29 +49646,18 @@ var render = function() {
                     ]),
                 _vm._v(" "),
                 _vm.numberOfNotAvailableBooks[lib.pivot.library_id] !== 0
-                  ? _c(
-                      "p",
-                      { staticClass: "text-secondary font-weight-bold" },
-                      [
-                        _vm._v(
-                          _vm._s(_vm.$t("number_of_not_books_available")) +
-                            " " +
-                            _vm._s(
-                              _vm.numberOfNotAvailableBooks[
-                                lib.pivot.library_id
-                              ]
-                            )
-                        )
-                      ]
-                    )
-                  : _c(
-                      "P",
-                      {
-                        staticClass: "font-weight-bold",
-                        staticStyle: { color: "#b2bec3" }
-                      },
-                      [_vm._v(_vm._s(_vm.$t("there_are_no_books_reserved")))]
-                    ),
+                  ? _c("p", { staticClass: "text-primary font-weight-bold" }, [
+                      _vm._v(
+                        _vm._s(_vm.$t("number_of_not_books_available")) +
+                          " " +
+                          _vm._s(
+                            _vm.numberOfNotAvailableBooks[lib.pivot.library_id]
+                          )
+                      )
+                    ])
+                  : _c("P", { staticClass: "text-dark" }, [
+                      _vm._v(_vm._s(_vm.$t("there_are_no_books_reserved")))
+                    ]),
                 _vm._v(" "),
                 _c(
                   "a",
@@ -49667,7 +49674,112 @@ var render = function() {
         )
       }),
       0
-    )
+    ),
+    _vm._v(" "),
+    _c("nav", [
+      _c(
+        "ul",
+        { staticClass: "pagination d-flex justify-content-center mt-3" },
+        [
+          _c("li", { staticClass: "page-item" }, [
+            _c(
+              "button",
+              {
+                staticClass: "page-link",
+                attrs: { title: _vm.$t("first"), "aria-label": "Previous" },
+                on: {
+                  click: function($event) {
+                    return _vm.getLibrary(1)
+                  }
+                }
+              },
+              [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")])]
+            )
+          ]),
+          _vm._v(" "),
+          _vm.librarys.current_page != 1
+            ? _c(
+                "li",
+                {
+                  staticClass: "page-item",
+                  attrs: { title: _vm.$t("per") },
+                  on: {
+                    click: function($event) {
+                      return _vm.getLibrary(_vm.librarys.current_page - 1)
+                    }
+                  }
+                },
+                [
+                  _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
+                    _vm._v("<")
+                  ])
+                ]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm._l(_vm.librarys.last_page, function(n, index) {
+            return _c(
+              "li",
+              {
+                key: index,
+                staticClass: "page-item",
+                class: { active: _vm.librarys.current_page == n },
+                attrs: { title: _vm.$t("number_of_page") + n },
+                on: {
+                  click: function($event) {
+                    return _vm.getLibrary(n)
+                  }
+                }
+              },
+              [_c("button", { staticClass: "page-link" }, [_vm._v(_vm._s(n))])]
+            )
+          }),
+          _vm._v(" "),
+          _vm.librarys.current_page != _vm.librarys.last_page
+            ? _c(
+                "li",
+                {
+                  staticClass: "page-item",
+                  attrs: { title: _vm.$t("next") },
+                  on: {
+                    click: function($event) {
+                      return _vm.getLibrary(_vm.librarys.current_page + 1)
+                    }
+                  }
+                },
+                [
+                  _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
+                    _vm._v(">")
+                  ])
+                ]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c("li", { staticClass: "page-item" }, [
+            _c(
+              "button",
+              {
+                staticClass: "page-link",
+                attrs: { title: _vm.$t("last"), "aria-label": "Next" },
+                on: {
+                  click: function($event) {
+                    return _vm.getLibrary(_vm.librarys.last_page)
+                  }
+                }
+              },
+              [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")])]
+            )
+          ])
+        ],
+        2
+      )
+    ]),
+    _vm._v(" "),
+    _c("br"),
+    _c("br"),
+    _c("br"),
+    _c("br"),
+    _c("br")
   ])
 }
 var staticRenderFns = [
@@ -66713,7 +66825,12 @@ var i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_0__["default"]({
       sorry_no_books_available: 'نأسف لا يوجد كتب متاحة',
       there_are_no_books_reserved: 'لا يوجد كتب محجوزة',
       show_books: 'عرض الكتب',
-      my_library: 'مساقاتي'
+      my_library: 'مساقاتي',
+      first: 'البداية',
+      last: 'النهاية',
+      next: 'التالي',
+      per: 'السابق',
+      number_of_page: 'صفحة رقم '
     },
     en: {
       hell: 'confirmStudentDataController'

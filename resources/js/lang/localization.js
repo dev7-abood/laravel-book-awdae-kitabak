@@ -30,7 +30,12 @@ export const i18n = new VueI18n({
             sorry_no_books_available     : 'نأسف لا يوجد كتب متاحة',
             there_are_no_books_reserved : 'لا يوجد كتب محجوزة',
             show_books                 : 'عرض الكتب',
-            my_library                 : 'مساقاتي'
+            my_library                 : 'مساقاتي',
+            first                     :  'البداية',
+            last                      : 'النهاية',
+            next                    : 'التالي',
+            per                     : 'السابق',
+            number_of_page                    : 'صفحة رقم '
         },
         en : {
             hell : 'confirmStudentDataController'
