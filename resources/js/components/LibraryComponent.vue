@@ -2,9 +2,13 @@
     <div class="container mt-5">
         <form>
             <div class="input-group d-flex justify-content-center">
-                <input class="form-control col-6" placeholder="ابحث عن التصنيف">
-                <button type="submit" class="btn btn-outline-info mr-2"><i class="fas fa-search"></i></button>
-                <a href="#" class="btn btn-outline-info mr-2">عرض التصنيفات</a>
+                <input class="form-control col-6" autoComplete="on" list="data_list" :placeholder="$t('wcs')">
+                <datalist id="data_list">
+                    <option>سيرة</option>
+                    <option>حديث</option>
+                </datalist>
+                <button type="button" class="btn btn-outline-info mr-2"><i class="fas fa-search"></i></button>
+                <button @click="getLibrary()" type="button" class="btn btn-outline-info mr-2">{{$t('view_categories')}}</button>
             </div>
         </form>
 
@@ -21,23 +25,30 @@
             </div>
         </div>
 
-        <nav>
-            <ul class="pagination d-flex justify-content-center mt-3">
-                <li class="page-item">
-                    <button :title="$t('first')" @click="getLibrary(1)" class="page-link"  aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </button>
-                </li>
-                <li v-if="librarys.current_page != 1" @click="getLibrary(librarys.current_page -1 )" :title="$t('per')" class="page-item"><a class="page-link" href="#">&lt;</a></li>
-                <li v-for="(n , index) in librarys.last_page" :key="index" @click="getLibrary(n)" :title="$t('number_of_page') + n" :class="{active : librarys.current_page == n}" class="page-item"><button class="page-link">{{n}}</button></li>
-                <li v-if="librarys.current_page != librarys.last_page" @click="getLibrary(librarys.current_page + 1 )" :title="$t('next')" class="page-item"><a class="page-link" href="#">&gt;</a></li>
-                <li class="page-item">
-                    <button :title="$t('last')" @click="getLibrary(librarys.last_page)" class="page-link" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </button>
-                </li>
-            </ul>
-        </nav>
+<!--        <nav v-if="librarys.total >= librarys.per_page">-->
+<!--            <ul class="pagination d-flex justify-content-center mt-3">-->
+<!--                <li class="page-item">-->
+<!--                    <button :title="$t('first')" @click="getLibrary(1)" class="page-link" aria-label="Previous">-->
+<!--                        <span aria-hidden="true">&laquo;</span>-->
+<!--                    </button>-->
+<!--                </li>-->
+<!--                <li v-if="librarys.current_page != 1" @click="getLibrary(librarys.current_page -1)" :title="$t('per')" class="page-item"><a class="page-link" href="#">&lt;</a></li>-->
+<!--                <li v-for="(n , index) in librarys.last_page" :title="$t('number_of_page') + n" :class="{active : librarys.current_page == n}"  class="page-item" @click="getLibrary(n)"><button class="page-link">{{n}}</button></li>-->
+<!--                <li v-if="librarys.current_page != librarys.last_page" @click="getLibrary(librarys.current_page + 1 )" :title="$t('next')" class="page-item"><a class="page-link" href="#">&gt;</a></li>-->
+<!--                <li class="page-item">-->
+<!--                    <button :title="$t('last')" @click="getLibrary(librarys.last_page)" class="page-link" aria-label="Next">-->
+<!--                        <span aria-hidden="true">&raquo;</span>-->
+<!--                    </button>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </nav>-->
+
+        <pagination class="pagination d-flex justify-content-center mt-3" :limit="5" :data="librarys" v-on:pagination-change-page="getLibrary">
+            <span slot="prev-nav">&lt;</span>
+            <span slot="next-nav">&gt;</span>
+        </pagination>
+
+
         <br><br><br><br><br>
     </div>
 </template>
@@ -58,9 +69,10 @@
             this.$store.dispatch('numberOfNotAvailableBooks');
         },
         methods: {
-            getLibrary(page) {
-                page = page || 1;
-                this.$store.dispatch('getLibrary' , `${this.$route.params.libraryId}?page=${page}`)
+            getLibrary(page = 1) {
+                this.$Progress.start();
+                this.$store.dispatch('getLibrary' ,
+                    `${this.$route.params.libraryId}?page=${page}` , this.$Progress.finish())
             },
         },
         computed : {
@@ -78,5 +90,7 @@
 </script>
 
 <style scoped>
-
+    input::-webkit-calendar-picker-indicator {
+        display: none;
+    }
 </style>

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Library extends Model
 {
 
-
     protected $table = 'librarys';
 
     protected $guarded = [];
@@ -22,5 +21,7 @@ class Library extends Model
     {
         return $this->hasMany(Book::class);
     }
+
+
 
 }

@@ -1,8 +1,8 @@
-// import axios from 'axios'
+import axios from 'axios'
 
 const state = {
-    numberOfAvailableBooks : [],
-    numberOfNotAvailableBooks : []
+    numberOfAvailableBooks : {},
+    numberOfNotAvailableBooks : {}
 };
 
 const getters = {

@@ -87,9 +87,6 @@ Route::get('/api/total-number-of-category' , ['as' => 'totalNumberOfCategory.cou
 
 
 Route::get('/test' , function (){
-    $posts = Library::withCount('name')->get();
 
-    foreach ($posts as $post) {
-        echo $post->name_count;
-    }
+
 });
