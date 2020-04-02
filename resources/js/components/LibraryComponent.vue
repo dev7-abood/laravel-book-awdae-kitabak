@@ -25,29 +25,10 @@
             </div>
         </div>
 
-<!--        <nav v-if="librarys.total >= librarys.per_page">-->
-<!--            <ul class="pagination d-flex justify-content-center mt-3">-->
-<!--                <li class="page-item">-->
-<!--                    <button :title="$t('first')" @click="getLibrary(1)" class="page-link" aria-label="Previous">-->
-<!--                        <span aria-hidden="true">&laquo;</span>-->
-<!--                    </button>-->
-<!--                </li>-->
-<!--                <li v-if="librarys.current_page != 1" @click="getLibrary(librarys.current_page -1)" :title="$t('per')" class="page-item"><a class="page-link" href="#">&lt;</a></li>-->
-<!--                <li v-for="(n , index) in librarys.last_page" :title="$t('number_of_page') + n" :class="{active : librarys.current_page == n}"  class="page-item" @click="getLibrary(n)"><button class="page-link">{{n}}</button></li>-->
-<!--                <li v-if="librarys.current_page != librarys.last_page" @click="getLibrary(librarys.current_page + 1 )" :title="$t('next')" class="page-item"><a class="page-link" href="#">&gt;</a></li>-->
-<!--                <li class="page-item">-->
-<!--                    <button :title="$t('last')" @click="getLibrary(librarys.last_page)" class="page-link" aria-label="Next">-->
-<!--                        <span aria-hidden="true">&raquo;</span>-->
-<!--                    </button>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </nav>-->
-
         <pagination class="pagination d-flex justify-content-center mt-3" :limit="5" :data="librarys" v-on:pagination-change-page="getLibrary">
             <span slot="prev-nav">&lt;</span>
             <span slot="next-nav">&gt;</span>
         </pagination>
-
 
         <br><br><br><br><br>
     </div>
