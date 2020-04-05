@@ -68,8 +68,8 @@ Route::group(['prefix' => '/api/'] , function (){
 
 
 Route::group(['prefix' => '/'] , function (){
-    Route::get('/home/{vue_capture?}' , 'web\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
-    Route::get('/library/{id}/{vue_capture?}' , 'web\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
+    Route::get('/home/{vue_capture?}' , 'WEB\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
+    Route::get('/library/{id}/{vue_capture?}' , 'WEB\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
 });
 
 
@@ -92,6 +92,7 @@ Route::get('/test/' , function (){
     $job = (new \App\Jobs\TestJob(auth()->id()))->delay(Carbon\Carbon::now()->addSecond(60));
 
     dispatch($job);
+
 
 });
 
