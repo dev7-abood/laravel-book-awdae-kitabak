@@ -32,7 +32,7 @@ class TestJob implements ShouldQueue
      */
     public function handle()
     {
-        DB::table('test')->where('id', '=', $this->auth_id)->update(['name' => 'hell']);
+        DB::table('test')->insert(['name' => 'hell']);
         echo "hell";
     }
 }

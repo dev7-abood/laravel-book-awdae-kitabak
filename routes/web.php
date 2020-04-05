@@ -74,8 +74,8 @@ Route::group(['prefix' => '/'] , function (){
 
 
 Route::group(['prefix' => '/confirm-student-data'] , function (){
-    Route::get('/' ,['middleware' => 'is_not_confirmed' , 'as' => 'confirm_student_data.index' , 'uses' => 'web\ConfirmStudentDataController@index']);
-    Route::post('/',['middleware' => 'is_not_confirmed' , 'as' => 'confirm_student_data.store' , 'uses' => 'web\ConfirmStudentDataController@store']);
+    Route::get('/' ,['middleware' => 'is_not_confirmed' , 'as' => 'confirm_student_data.index' , 'uses' => 'WEB\ConfirmStudentDataController@index']);
+    Route::post('/',['middleware' => 'is_not_confirmed' , 'as' => 'confirm_student_data.store' , 'uses' => 'WEB\ConfirmStudentDataController@store']);
 });
 
 
@@ -89,21 +89,9 @@ Route::get('/api/total-number-of-category' , ['as' => 'totalNumberOfCategory.cou
 
 Route::get('/test/' , function (){
 
-    $job = new \App\Jobs\TestJob(auth()->id());
+    $job = (new \App\Jobs\TestJob(auth()->id()))->delay(Carbon\Carbon::now()->addSecond(60));
 
-//    ->delay(Carbon::now()->addSecond(5));
-
-    $hell = "hell";
-
-    $days = \Carbon\Carbon::today();
-
-//     $days->dayOfWeek;
-
-//    return  $days->toFormattedDateString()
-
-    return $days->isoFormat('YYYY MMMM ddd');
-
-
+    dispatch($job);
 
 });
 
