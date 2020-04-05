@@ -74,8 +74,8 @@ Route::group(['prefix' => '/'] , function (){
 
 
 Route::group(['prefix' => '/confirm-student-data'] , function (){
-    Route::get('/' ,['middleware' => 'is_not_confirmed' , 'as' => 'confirm_student_data.index' , 'uses' => 'WEB\ConfirmStudentDataController@index']);
-    Route::post('/',['middleware' => 'is_not_confirmed' , 'as' => 'confirm_student_data.store' , 'uses' => 'WEB\ConfirmStudentDataController@store']);
+    Route::get('/' ,['middleware' => 'is_not_confirmed' , 'as' => 'confirm_student_data.index' , 'uses' => 'web\ConfirmStudentDataController@index']);
+    Route::post('/',['middleware' => 'is_not_confirmed' , 'as' => 'confirm_student_data.store' , 'uses' => 'web\ConfirmStudentDataController@store']);
 });
 
 
