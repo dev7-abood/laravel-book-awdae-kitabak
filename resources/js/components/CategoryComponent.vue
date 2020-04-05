@@ -1,7 +1,7 @@
 <template>
     <div v-if="$route.path == '/home'" class="container">
         <br><br><br>
-        <div class="row text-center d-flex justify-content-center flex-row-reverse">
+        <div class="row text-center d-flex justify-content-center">
             <div  v-for="cat in category" :key="cat.id"  class="col-lg-5 bg-white mt-3" style="border-radius: 30px;margin: 0 20px 0 20px">
                 <img :src="cat.img_url" class="mx-auto d-block p-2" height="300px" width="300px">
                 <div class="text-center">

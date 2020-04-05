@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +18,7 @@ use App\Models\User;
 use App\Models\Categorie;
 use App\Models\Library;
 use App\Models\Book;
+use Illuminate\Support\Facades\DB;
 
 
 Route::get('/total-books-available',
@@ -61,6 +61,8 @@ Route::group(['prefix' => '/api/'] , function (){
     Route::get('/library/{id}/{vue_capture?}' , ['as' => 'getLibraryTypeStudent.index'  , 'uses' => 'API\LibraryController@getLibraryTypeStudent']);
     Route::get('/number-of-available-books-from-library' , ['as' => 'numberOfBooksAvailableFromLibrary.index'  , 'uses' => 'API\NumberOfBooksController@numberOfBooksAvailableFromLibrary']);
     Route::get('/number-of-not-available-books-from-library' , ['as' => 'numberOfBooksNotAvailableFromLibrary.index'  , 'uses' => 'API\NumberOfBooksController@numberOfBooksNotAvailableFromLibrary']);
+    Route::post('/search-input-library/{id}' , 'API\SearchController@SearchInputLibrary');
+
 });
 
 
@@ -85,8 +87,24 @@ Route::get('/books/{id_lib}/{id_cta}' , ['as' => 'books.index' , 'uses' => 'API\
 
 Route::get('/api/total-number-of-category' , ['as' => 'totalNumberOfCategory.count' , 'uses' => 'API\NumberOfBooksController@totalNumberOfCategory']);
 
+Route::get('/test/' , function (){
 
-Route::get('/test' , function (){
+    $job = new \App\Jobs\TestJob(auth()->id());
+
+//    ->delay(Carbon::now()->addSecond(5));
+
+    $hell = "hell";
+
+    $days = \Carbon\Carbon::today();
+
+//     $days->dayOfWeek;
+
+//    return  $days->toFormattedDateString()
+
+    return $days->isoFormat('YYYY MMMM ddd');
+
 
 
 });
+
+

@@ -2042,7 +2042,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "LibraryComponent",
   data: function data() {
-    return {};
+    return {
+      inputSearch: '',
+      LibraryDatalist: {}
+    };
   },
   created: function created() {
     this.getLibrary();
@@ -2056,6 +2059,15 @@ __webpack_require__.r(__webpack_exports__);
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.$Progress.start();
       this.$store.dispatch('getLibrary', "".concat(this.$route.params.libraryId, "?page=").concat(page), this.$Progress.finish());
+    },
+    autoCompleteLibrarySearch: function autoCompleteLibrarySearch() {
+      var _this = this;
+
+      axios.post("/search-input-library/".concat(this.$route.params.libraryId), {
+        name: this.inputSearch
+      }).then(function (res) {
+        return _this.LibraryDatalist = res.data;
+      });
     }
   },
   computed: {
@@ -50738,10 +50750,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "div",
-          {
-            staticClass:
-              "row text-center d-flex justify-content-center flex-row-reverse"
-          },
+          { staticClass: "row text-center d-flex justify-content-center" },
           _vm._l(_vm.category, function(cat) {
             return _c(
               "div",
@@ -50854,17 +50863,42 @@ var render = function() {
           { staticClass: "input-group d-flex justify-content-center" },
           [
             _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.inputSearch,
+                  expression: "inputSearch"
+                }
+              ],
               staticClass: "form-control col-6",
               attrs: {
                 autoComplete: "on",
                 list: "data_list",
                 placeholder: _vm.$t("wcs")
+              },
+              domProps: { value: _vm.inputSearch },
+              on: {
+                keyup: _vm.autoCompleteLibrarySearch,
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.inputSearch = $event.target.value
+                }
               }
             }),
             _vm._v(" "),
-            _vm._m(0),
+            _c(
+              "datalist",
+              { attrs: { id: "data_list" } },
+              _vm._l(_vm.LibraryDatalist, function(d) {
+                return _c("option", [_vm._v(_vm._s(d.name))])
+              }),
+              0
+            ),
             _vm._v(" "),
-            _vm._m(1),
+            _vm._m(0),
             _vm._v(" "),
             _c(
               "button",
@@ -50907,7 +50941,10 @@ var render = function() {
                     [_vm._v(_vm._s(lib.name))]
                   ),
                   _vm._v(" "),
-                  _vm.numberOfAvailableBooks[lib.pivot.library_id] !== 0
+                  _vm.numberOfAvailableBooks[lib.pivot.library_id] !== 0 &&
+                  _vm.numberOfAvailableBooks.hasOwnProperty(
+                    lib.pivot.library_id
+                  )
                     ? _c(
                         "p",
                         { staticClass: "mt-3 text-success font-weight-bold" },
@@ -50921,11 +50958,16 @@ var render = function() {
                           )
                         ]
                       )
-                    : _c("P", { staticStyle: { color: "#b2bec3" } }, [
-                        _vm._v(_vm._s(_vm.$t("sorry_no_books_available")))
-                      ]),
+                    : _c(
+                        "P",
+                        { staticClass: "mt-3 font-weight-bold text-dark" },
+                        [_vm._v(_vm._s(_vm.$t("sorry_no_books_available")))]
+                      ),
                   _vm._v(" "),
-                  _vm.numberOfNotAvailableBooks[lib.pivot.library_id] !== 0
+                  _vm.numberOfNotAvailableBooks[lib.pivot.library_id] !== 0 &&
+                  _vm.numberOfNotAvailableBooks.hasOwnProperty(
+                    lib.pivot.library_id
+                  )
                     ? _c(
                         "p",
                         { staticClass: "text-primary font-weight-bold" },
@@ -50941,18 +50983,30 @@ var render = function() {
                           )
                         ]
                       )
-                    : _c("P", { staticClass: "text-dark" }, [
+                    : _c("P", { staticStyle: { color: "#b2bec3" } }, [
                         _vm._v(_vm._s(_vm.$t("there_are_no_books_reserved")))
                       ]),
                   _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "d-block text-danger mt-1",
-                      attrs: { href: "" }
-                    },
-                    [_vm._v(_vm._s(_vm.$t("show_books")))]
+                  _vm.numberOfAvailableBooks[lib.pivot.library_id] !== 0 &&
+                  _vm.numberOfAvailableBooks.hasOwnProperty(
+                    lib.pivot.library_id
                   )
+                    ? _c(
+                        "router-link",
+                        {
+                          staticClass: "btn btn-link text-danger",
+                          attrs: { to: "/" }
+                        },
+                        [_vm._v(_vm._s(_vm.$t("show_books")))]
+                      )
+                    : _c(
+                        "router-link",
+                        {
+                          staticClass: "btn btn-link text-danger disabled",
+                          attrs: { to: "/" }
+                        },
+                        [_vm._v(_vm._s(_vm.$t("show_books")))]
+                      )
                 ],
                 1
               )
@@ -50990,16 +51044,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("datalist", { attrs: { id: "data_list" } }, [
-      _c("option", [_vm._v("سيرة")]),
-      _vm._v(" "),
-      _c("option", [_vm._v("حديث")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

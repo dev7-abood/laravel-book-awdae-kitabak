@@ -7,10 +7,22 @@ use Illuminate\Http\Request;
 
 use App\Http\Resources\SearchInputLibraryResource;
 
+use App\Models\Categorie;
+
 class SearchController extends Controller
 {
-    public function SearchInputLibraryResource()
+    public function SearchInputLibrary(Request $request , $id)
     {
+        if ($request->ajax())
+        {
+            $library = Categorie::find($id)
+                ->librarys()
+                ->where('name','like', '%'.$request->name.'%')
+                ->take(8)
+                ->get();
 
+            return SearchInputLibraryResource::collection($library);
+        }
+        return abort(404);
     }
 }
