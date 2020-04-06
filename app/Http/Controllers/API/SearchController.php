@@ -25,4 +25,17 @@ class SearchController extends Controller
         }
         return abort(404);
     }
+
+    public function SearchLibraryType(Request $request , $id)
+    {
+        if ($request->ajax())
+        {
+            $library = Categorie::find($id)
+                ->librarys()
+                ->where('name','like', '%'.$request->name.'%')
+                ->paginate(6);
+            return $library;
+        }
+        return abort(404);
+    }
 }

@@ -66,7 +66,7 @@ class CategorieSeeder extends Seeder
                 [
                     'name' => 'العلوم الصحية',
                     'name_shorthand' => 'heal',
-                    'img_url' => 'img/college_img/ople-donating-blood-background-flat-design_-1@2x.png',
+                    'img_url' => 'img/college_img/people-donating-blood-background-flat-design_-1@2x.png',
                     'btn_color' => 'primary',
                 ],
                 [

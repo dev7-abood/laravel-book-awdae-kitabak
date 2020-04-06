@@ -2039,12 +2039,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "LibraryComponent",
   data: function data() {
     return {
-      inputSearch: '',
-      LibraryDatalist: {}
+      libraryMainActive: true,
+      libraryExternalActive: false,
+      LibraryDatalist: {},
+      LibrarySearchData: {},
+      inputSearch: ''
     };
   },
   created: function created() {
@@ -2057,6 +2105,10 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getLibrary: function getLibrary() {
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      this.LibrarySearchData = {};
+      this.libraryMainActive = true;
+      this.inputSearch = '';
+      this.libraryExternalActive = false;
       this.$Progress.start();
       this.$store.dispatch('getLibrary', "".concat(this.$route.params.libraryId, "?page=").concat(page), this.$Progress.finish());
     },
@@ -2068,6 +2120,25 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         return _this.LibraryDatalist = res.data;
       });
+    },
+    getLibrarySearch: function getLibrarySearch() {
+      var _this2 = this;
+
+      if (this.inputSearch == '') {
+        this.$Progress.start();
+        this.$Progress.fail();
+      } else {
+        this.$Progress.start();
+        this.libraryMainActive = false;
+        this.libraryExternalActive = true;
+        axios.post("/search-type-library/".concat(this.$route.params.libraryId), {
+          name: this.inputSearch
+        }).then(function (res) {
+          _this2.LibrarySearchData = res.data;
+
+          _this2.$Progress.finish();
+        });
+      }
     }
   },
   computed: {
@@ -50857,7 +50928,7 @@ var render = function() {
     "div",
     { staticClass: "container mt-5" },
     [
-      _c("form", [
+      _c("div", [
         _c(
           "div",
           { staticClass: "input-group d-flex justify-content-center" },
@@ -50879,7 +50950,19 @@ var render = function() {
               },
               domProps: { value: _vm.inputSearch },
               on: {
-                keyup: _vm.autoCompleteLibrarySearch,
+                keyup: [
+                  _vm.autoCompleteLibrarySearch,
+                  function($event) {
+                    if (
+                      !$event.type.indexOf("key") &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                    ) {
+                      return null
+                    }
+                    $event.preventDefault()
+                    return _vm.getLibrarySearch($event)
+                  }
+                ],
                 input: function($event) {
                   if ($event.target.composing) {
                     return
@@ -50898,7 +50981,15 @@ var render = function() {
               0
             ),
             _vm._v(" "),
-            _vm._m(0),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-info mr-2",
+                attrs: { type: "button" },
+                on: { click: _vm.getLibrarySearch }
+              },
+              [_c("i", { staticClass: "fas fa-search" })]
+            ),
             _vm._v(" "),
             _c(
               "button",
@@ -50911,128 +51002,303 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v(_vm._s(_vm.$t("view_categories")))]
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.$t("view_categories")) +
+                    "\n            "
+                )
+              ]
             )
           ]
         )
       ]),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "row mx-md-n4" },
-        _vm._l(_vm.librarys.data, function(lib) {
-          return _c(
+      _vm.libraryMainActive
+        ? _c(
             "div",
-            { key: lib.id, staticClass: "col-md-4 mt-lg-2 px-md-2 mt-2" },
-            [
-              _c(
+            { staticClass: "row mx-md-n4" },
+            _vm._l(_vm.librarys.data, function(lib) {
+              return _c(
                 "div",
-                {
-                  staticClass: "p-4 bg-white text-center",
-                  staticStyle: { "border-radius": "10px" }
-                },
+                { key: lib.id, staticClass: "col-md-4 mt-lg-2 px-md-2 mt-2" },
                 [
                   _c(
-                    "strong",
+                    "div",
                     {
-                      staticClass: "mb-2",
-                      staticStyle: { "border-bottom": "2px solid green" }
+                      staticClass: "p-4 bg-white text-center",
+                      staticStyle: { "border-radius": "10px" }
                     },
-                    [_vm._v(_vm._s(lib.name))]
-                  ),
-                  _vm._v(" "),
-                  _vm.numberOfAvailableBooks[lib.pivot.library_id] !== 0 &&
-                  _vm.numberOfAvailableBooks.hasOwnProperty(
-                    lib.pivot.library_id
-                  )
-                    ? _c(
-                        "p",
-                        { staticClass: "mt-3 text-success font-weight-bold" },
-                        [
-                          _vm._v(
-                            _vm._s(_vm.$t("number_of_books_available")) +
-                              " " +
-                              _vm._s(
-                                _vm.numberOfAvailableBooks[lib.pivot.library_id]
-                              )
-                          )
-                        ]
-                      )
-                    : _c(
-                        "P",
-                        { staticClass: "mt-3 font-weight-bold text-dark" },
-                        [_vm._v(_vm._s(_vm.$t("sorry_no_books_available")))]
+                    [
+                      _c(
+                        "strong",
+                        {
+                          staticClass: "mb-2",
+                          staticStyle: { "border-bottom": "2px solid green" }
+                        },
+                        [_vm._v(_vm._s(lib.name))]
                       ),
-                  _vm._v(" "),
-                  _vm.numberOfNotAvailableBooks[lib.pivot.library_id] !== 0 &&
-                  _vm.numberOfNotAvailableBooks.hasOwnProperty(
-                    lib.pivot.library_id
-                  )
-                    ? _c(
-                        "p",
-                        { staticClass: "text-primary font-weight-bold" },
-                        [
-                          _vm._v(
-                            _vm._s(_vm.$t("number_of_not_books_available")) +
-                              " " +
-                              _vm._s(
-                                _vm.numberOfNotAvailableBooks[
-                                  lib.pivot.library_id
-                                ]
+                      _vm._v(" "),
+                      _vm.numberOfAvailableBooks[lib.pivot.library_id] !== 0 &&
+                      _vm.numberOfAvailableBooks.hasOwnProperty(
+                        lib.pivot.library_id
+                      )
+                        ? _c(
+                            "p",
+                            {
+                              staticClass: "mt-3 text-success font-weight-bold"
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(_vm.$t("number_of_books_available")) +
+                                  "\n                    " +
+                                  _vm._s(
+                                    _vm.numberOfAvailableBooks[
+                                      lib.pivot.library_id
+                                    ]
+                                  )
                               )
+                            ]
                           )
-                        ]
+                        : _c(
+                            "P",
+                            { staticClass: "mt-3 font-weight-bold text-dark" },
+                            [_vm._v(_vm._s(_vm.$t("sorry_no_books_available")))]
+                          ),
+                      _vm._v(" "),
+                      _vm.numberOfNotAvailableBooks[lib.pivot.library_id] !==
+                        0 &&
+                      _vm.numberOfNotAvailableBooks.hasOwnProperty(
+                        lib.pivot.library_id
                       )
-                    : _c("P", { staticStyle: { color: "#b2bec3" } }, [
-                        _vm._v(_vm._s(_vm.$t("there_are_no_books_reserved")))
-                      ]),
-                  _vm._v(" "),
-                  _vm.numberOfAvailableBooks[lib.pivot.library_id] !== 0 &&
-                  _vm.numberOfAvailableBooks.hasOwnProperty(
-                    lib.pivot.library_id
+                        ? _c(
+                            "p",
+                            { staticClass: "text-primary font-weight-bold" },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$t("number_of_not_books_available")
+                                ) +
+                                  "\n                    " +
+                                  _vm._s(
+                                    _vm.numberOfNotAvailableBooks[
+                                      lib.pivot.library_id
+                                    ]
+                                  )
+                              )
+                            ]
+                          )
+                        : _c("P", { staticStyle: { color: "#b2bec3" } }, [
+                            _vm._v(
+                              _vm._s(_vm.$t("there_are_no_books_reserved"))
+                            )
+                          ]),
+                      _vm._v(" "),
+                      _vm.numberOfAvailableBooks[lib.pivot.library_id] !== 0 &&
+                      _vm.numberOfAvailableBooks.hasOwnProperty(
+                        lib.pivot.library_id
+                      )
+                        ? _c(
+                            "router-link",
+                            {
+                              staticClass: "btn btn-link text-danger",
+                              attrs: { to: "/" }
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(_vm.$t("show_books")) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                        : _c(
+                            "router-link",
+                            {
+                              staticClass: "btn btn-link text-danger disabled",
+                              attrs: { to: "/" }
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(_vm.$t("show_books")) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                    ],
+                    1
                   )
-                    ? _c(
-                        "router-link",
-                        {
-                          staticClass: "btn btn-link text-danger",
-                          attrs: { to: "/" }
-                        },
-                        [_vm._v(_vm._s(_vm.$t("show_books")))]
-                      )
-                    : _c(
-                        "router-link",
-                        {
-                          staticClass: "btn btn-link text-danger disabled",
-                          attrs: { to: "/" }
-                        },
-                        [_vm._v(_vm._s(_vm.$t("show_books")))]
-                      )
-                ],
-                1
+                ]
               )
+            }),
+            0
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.libraryMainActive
+        ? _c(
+            "pagination",
+            {
+              staticClass: "pagination d-flex justify-content-center mt-3",
+              attrs: { limit: 5, data: _vm.librarys },
+              on: { "pagination-change-page": _vm.getLibrary }
+            },
+            [
+              _c("span", { attrs: { slot: "prev-nav" }, slot: "prev-nav" }, [
+                _vm._v("<")
+              ]),
+              _vm._v(" "),
+              _c("span", { attrs: { slot: "next-nav" }, slot: "next-nav" }, [
+                _vm._v(">")
+              ])
             ]
           )
-        }),
-        0
-      ),
+        : _vm._e(),
       _vm._v(" "),
-      _c(
-        "pagination",
-        {
-          staticClass: "pagination d-flex justify-content-center mt-3",
-          attrs: { limit: 5, data: _vm.librarys },
-          on: { "pagination-change-page": _vm.getLibrary }
-        },
-        [
-          _c("span", { attrs: { slot: "prev-nav" }, slot: "prev-nav" }, [
-            _vm._v("<")
-          ]),
-          _vm._v(" "),
-          _c("span", { attrs: { slot: "next-nav" }, slot: "next-nav" }, [
-            _vm._v(">")
+      _vm.libraryExternalActive
+        ? _c(
+            "div",
+            { staticClass: "row mx-md-n4" },
+            _vm._l(_vm.LibrarySearchData.data, function(lib) {
+              return _c(
+                "div",
+                { key: lib.id, staticClass: "col-md-4 mt-lg-2 px-md-2 mt-2" },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "p-4 bg-white text-center",
+                      staticStyle: { "border-radius": "10px" }
+                    },
+                    [
+                      _c(
+                        "strong",
+                        {
+                          staticClass: "mb-2",
+                          staticStyle: { "border-bottom": "2px solid green" }
+                        },
+                        [_vm._v(_vm._s(lib.name))]
+                      ),
+                      _vm._v(" "),
+                      _vm.numberOfAvailableBooks[lib.pivot.library_id] !== 0 &&
+                      _vm.numberOfAvailableBooks.hasOwnProperty(
+                        lib.pivot.library_id
+                      )
+                        ? _c(
+                            "p",
+                            {
+                              staticClass: "mt-3 text-success font-weight-bold"
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(_vm.$t("number_of_books_available")) +
+                                  "\n                    " +
+                                  _vm._s(
+                                    _vm.numberOfAvailableBooks[
+                                      lib.pivot.library_id
+                                    ]
+                                  )
+                              )
+                            ]
+                          )
+                        : _c(
+                            "P",
+                            { staticClass: "mt-3 font-weight-bold text-dark" },
+                            [_vm._v(_vm._s(_vm.$t("sorry_no_books_available")))]
+                          ),
+                      _vm._v(" "),
+                      _vm.numberOfNotAvailableBooks[lib.pivot.library_id] !==
+                        0 &&
+                      _vm.numberOfNotAvailableBooks.hasOwnProperty(
+                        lib.pivot.library_id
+                      )
+                        ? _c(
+                            "p",
+                            { staticClass: "text-primary font-weight-bold" },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$t("number_of_not_books_available")
+                                ) +
+                                  "\n                    " +
+                                  _vm._s(
+                                    _vm.numberOfNotAvailableBooks[
+                                      lib.pivot.library_id
+                                    ]
+                                  )
+                              )
+                            ]
+                          )
+                        : _c("P", { staticStyle: { color: "#b2bec3" } }, [
+                            _vm._v(
+                              _vm._s(_vm.$t("there_are_no_books_reserved"))
+                            )
+                          ]),
+                      _vm._v(" "),
+                      _vm.numberOfAvailableBooks[lib.pivot.library_id] !== 0 &&
+                      _vm.numberOfAvailableBooks.hasOwnProperty(
+                        lib.pivot.library_id
+                      )
+                        ? _c(
+                            "router-link",
+                            {
+                              staticClass: "btn btn-link text-danger",
+                              attrs: { to: "/" }
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(_vm.$t("show_books")) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                        : _c(
+                            "router-link",
+                            {
+                              staticClass: "btn btn-link text-danger disabled",
+                              attrs: { to: "/" }
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(_vm.$t("show_books")) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                    ],
+                    1
+                  )
+                ]
+              )
+            }),
+            0
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.libraryExternalActive
+        ? _c(
+            "pagination",
+            {
+              staticClass: "pagination d-flex justify-content-center mt-3",
+              attrs: { limit: 5, data: _vm.LibrarySearchData },
+              on: { "pagination-change-page": _vm.getLibrary }
+            },
+            [
+              _c("span", { attrs: { slot: "prev-nav" }, slot: "prev-nav" }, [
+                _vm._v("<")
+              ]),
+              _vm._v(" "),
+              _c("span", { attrs: { slot: "next-nav" }, slot: "next-nav" }, [
+                _vm._v(">")
+              ])
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.LibrarySearchData.data == ""
+        ? _c("div", { staticClass: "d-flex justify-content-center h4" }, [
+            _vm._v("\n        التصنيف الذي تبحث عنه غير موجود  !\n    ")
           ])
-        ]
-      ),
+        : _vm._e(),
       _vm._v(" "),
       _c("br"),
       _c("br"),
@@ -51043,18 +51309,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-outline-info mr-2", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fas fa-search" })]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -68175,8 +68430,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]); // const debug = process.env.NODE_ENV !== 'production';
-
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+var debug = "development" !== 'production';
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
     books: _modules_books__WEBPACK_IMPORTED_MODULE_2__["default"],

@@ -11,11 +11,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
-        factory(App\Models\Library::class, 30)->create();
-//        factory(App\Models\Book::class, 30)->create();
 
+        factory(App\Models\Book::class , 100)->create();
 
-
+//        $cate = App\Models\Library::all();
+//
+//        App\Models\Categorie::all()->each(function ($lib) use ($cate) {
+//            $lib->librarys()->sync(
+//                $cate->random(rand(1, 12))->pluck('id')->toArray()
+//            );
+//        });
     }
 }

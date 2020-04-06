@@ -62,6 +62,7 @@ Route::group(['prefix' => '/api/'] , function (){
     Route::get('/number-of-available-books-from-library' , ['as' => 'numberOfBooksAvailableFromLibrary.index'  , 'uses' => 'API\NumberOfBooksController@numberOfBooksAvailableFromLibrary']);
     Route::get('/number-of-not-available-books-from-library' , ['as' => 'numberOfBooksNotAvailableFromLibrary.index'  , 'uses' => 'API\NumberOfBooksController@numberOfBooksNotAvailableFromLibrary']);
     Route::post('/search-input-library/{id}' , 'API\SearchController@SearchInputLibrary');
+    Route::post('/search-type-library/{id}' , 'API\SearchController@SearchLibraryType');
 
 });
 
@@ -89,11 +90,11 @@ Route::get('/api/total-number-of-category' , ['as' => 'totalNumberOfCategory.cou
 
 Route::get('/test/' , function (){
 
-    $job = (new \App\Jobs\TestJob(auth()->id()))->delay(Carbon\Carbon::now()->addSecond(60));
+//    $job = (new \App\Jobs\TestJob(auth()->id()))->delay(Carbon\Carbon::now()->addSecond(60));
+//
+//    dispatch($job);
 
-    dispatch($job);
-
-
+  return  App\Models\User::all()->random()->name;
 });
 
 
