@@ -15,8 +15,8 @@
             </div>
         </div>
 
-        <div v-if="libraryMainActive" class="row mx-md-n4">
-            <div v-for="lib in librarys.data" :key="lib.id" class="col-md-4 mt-lg-2 px-md-2 mt-2">
+        <div class="row mx-md-n4">
+            <div v-for="lib in SearchDataOrMainLibraryData" :key="lib.id" class="col-md-4 mt-lg-2 px-md-2 mt-2">
                 <div class="p-4 bg-white text-center" style="border-radius: 10px">
                     <strong class="mb-2" style="border-bottom: 2px solid green">{{lib.name}}</strong>
                     <p v-if="numberOfAvailableBooks[lib.pivot.library_id] !== 0 && numberOfAvailableBooks.hasOwnProperty(lib.pivot.library_id)"
@@ -37,39 +37,12 @@
             </div>
         </div>
 
-        <pagination v-if="libraryMainActive" class="pagination d-flex justify-content-center mt-3" :limit="5"
-                    :data="librarys" v-on:pagination-change-page="getLibrary">
+        <pagination class="pagination d-flex justify-content-center mt-3" :limit="5"
+                    :data="PaginationSearchDataOrMainLibraryData" v-on:pagination-change-page="getLibrary">
             <span slot="prev-nav">&lt;</span>
             <span slot="next-nav">&gt;</span>
         </pagination>
 
-        <div v-if="libraryExternalActive" class="row mx-md-n4">
-            <div v-for="lib in LibrarySearchData.data" :key="lib.id" class="col-md-4 mt-lg-2 px-md-2 mt-2">
-                <div class="p-4 bg-white text-center" style="border-radius: 10px">
-                    <strong class="mb-2" style="border-bottom: 2px solid green">{{lib.name}}</strong>
-                    <p v-if="numberOfAvailableBooks[lib.pivot.library_id] !== 0 && numberOfAvailableBooks.hasOwnProperty(lib.pivot.library_id)"
-                       class="mt-3 text-success font-weight-bold">{{$t('number_of_books_available')}}
-                        {{numberOfAvailableBooks[lib.pivot.library_id]}}</p>
-                    <P v-else class="mt-3 font-weight-bold text-dark">{{$t('sorry_no_books_available')}}</P>
-                    <p v-if="numberOfNotAvailableBooks[lib.pivot.library_id] !== 0 && numberOfNotAvailableBooks.hasOwnProperty(lib.pivot.library_id)"
-                       class="text-primary font-weight-bold">{{$t('number_of_not_books_available')}}
-                        {{numberOfNotAvailableBooks[lib.pivot.library_id]}}</p>
-                    <P v-else style="color: #b2bec3">{{$t('there_are_no_books_reserved')}}</P>
-                    <router-link
-                        v-if="numberOfAvailableBooks[lib.pivot.library_id] !== 0 && numberOfAvailableBooks.hasOwnProperty(lib.pivot.library_id)"
-                        to="/" class="btn btn-link text-danger">{{$t('show_books')}}
-                    </router-link>
-                    <router-link v-else to="/" class="btn btn-link text-danger disabled">{{$t('show_books')}}
-                    </router-link>
-                </div>
-            </div>
-        </div>
-
-        <pagination v-if="libraryExternalActive" class="pagination d-flex justify-content-center mt-3" :limit="5"
-                    :data="LibrarySearchData" v-on:pagination-change-page="getLibrary">
-            <span slot="prev-nav">&lt;</span>
-            <span slot="next-nav">&gt;</span>
-        </pagination>
 
         <div v-html="$t('category_you_are_looking_for_does_not_exist')"
              class="d-flex justify-content-center h4" v-if="LibrarySearchData.data == ''">
@@ -115,7 +88,7 @@
             },
             getLibrarySearch() {
                 if (this.inputSearch == '') {
-                    this.$Progress.start()
+                    this.$Progress.start();
                     this.$Progress.fail()
 
                 } else {
@@ -140,6 +113,27 @@
             },
             numberOfNotAvailableBooks() {
                 return this.$store.state.books.numberOfNotAvailableBooks;
+            },
+            SearchDataOrMainLibraryData(){
+                if (this.libraryMainActive)
+                {
+                    return this.librarys.data
+                }
+                else if (this.libraryExternalActive)
+                {
+                    return this.LibrarySearchData.data
+                }
+            },
+            PaginationSearchDataOrMainLibraryData()
+            {
+                if (this.libraryMainActive)
+                {
+                    return this.librarys
+                }
+                else if (this.libraryExternalActive)
+                {
+                    return this.LibrarySearchData
+                }
             }
         },
     }
