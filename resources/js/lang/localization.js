@@ -37,7 +37,8 @@ export const i18n = new VueI18n({
             per                     : 'السابق',
             number_of_page                    : 'صفحة رقم ',
             wcs                      : 'عن اي تصنيف تبحث ؟',
-            view_categories         : 'عرض التصنيفات'
+            view_categories         : 'عرض التصنيفات',
+            category_you_are_looking_for_does_not_exist    : 'التصنيف الذي تبحث عنه غير موجود &nbsp;!'
         },
         en : {
             hell : 'confirmStudentDataController'

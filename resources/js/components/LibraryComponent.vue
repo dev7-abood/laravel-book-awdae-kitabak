@@ -71,8 +71,8 @@
             <span slot="next-nav">&gt;</span>
         </pagination>
 
-        <div class="d-flex justify-content-center h4" v-if="LibrarySearchData.data == ''">
-            التصنيف الذي تبحث عنه غير موجود &nbsp;!
+        <div v-html="$t('category_you_are_looking_for_does_not_exist')"
+             class="d-flex justify-content-center h4" v-if="LibrarySearchData.data == ''">
         </div>
 
         <br><br><br><br><br>
