@@ -7,7 +7,7 @@
                 <div class="text-center">
                     <strong> {{$t('categorie')}} {{cat.name}} </strong>
                     <div class="mt-1"><span>{{$t('number_of_books_available_for_reservation')}}<span style="font-size: 20px">&nbsp;&nbsp;<strong>{{number_of_books[cat.pivot.categorie_id]}}</strong></span></span></div>
-                    <router-link :to="{ name : 'library' , params : { libraryId : cat.pivot.categorie_id}}" :class="`btn btn-${cat.btn_color} text-white mt-2 mb-3`">عرض الكتب المتاحة</router-link>
+                    <router-link :to="{ name : 'library' , params : { libraryId : cat.pivot.categorie_id}}" :class="`btn btn-${cat.btn_color} text-white mt-2 mb-3`">{{$t('show_books_available')}}</router-link>
                 </div>
             </div>
         </div>

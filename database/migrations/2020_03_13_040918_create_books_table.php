@@ -21,6 +21,7 @@ class CreateBooksTable extends Migration
             $table->enum('status' , ['b' ,'g' , 'e']);
 
 
+
             $table->unsignedBigInteger('user_id')->nullable()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

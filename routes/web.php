@@ -58,6 +58,7 @@ Route::group(['prefix' => '/api/'] , function (){
         }
     });
     Route::get('/category' , ['as' => 'category' , 'uses' => 'API\CategoryController@getCategoryTypeStudent']);
+    Route::get('/all-category' , ['as' => 'all_category' , 'uses' => 'API\CategoryController@getAllCategory']);
     Route::get('/library/{id}/{vue_capture?}' , ['as' => 'getLibraryTypeStudent.index'  , 'uses' => 'API\LibraryController@getLibraryTypeStudent']);
     Route::get('/number-of-available-books-from-library' , ['as' => 'numberOfBooksAvailableFromLibrary.index'  , 'uses' => 'API\NumberOfBooksController@numberOfBooksAvailableFromLibrary']);
     Route::get('/number-of-not-available-books-from-library' , ['as' => 'numberOfBooksNotAvailableFromLibrary.index'  , 'uses' => 'API\NumberOfBooksController@numberOfBooksNotAvailableFromLibrary']);
@@ -70,6 +71,7 @@ Route::group(['prefix' => '/api/'] , function (){
 
 Route::group(['prefix' => '/'] , function (){
     Route::get('/home/{vue_capture?}' , 'WEB\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
+    Route::get('/all-category/{vue_capture?}' , 'WEB\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
     Route::get('/library/{id}/{vue_capture?}' , 'WEB\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
 });
 
@@ -87,6 +89,7 @@ Route::get('/books/{id_lib}/{id_cta}' , ['as' => 'books.index' , 'uses' => 'API\
 
 
 Route::get('/api/total-number-of-category' , ['as' => 'totalNumberOfCategory.count' , 'uses' => 'API\NumberOfBooksController@totalNumberOfCategory']);
+Route::get('/api/total-number-of-all-category' , ['as' => 'totalNumberOfAllCategory.count' , 'uses' => 'API\NumberOfBooksController@totalNumberOfAllCategory']);
 
 Route::get('/test/' , function (){
 
@@ -97,4 +100,11 @@ Route::get('/test/' , function (){
   return  App\Models\User::all()->random()->name;
 });
 
+Route::get('/test2/' , function (){
+   return Categorie::all();
 
+
+//    $user = User::findOrFail(auth()->id() || auth('api')->id());
+//    return $user->categories;
+
+});

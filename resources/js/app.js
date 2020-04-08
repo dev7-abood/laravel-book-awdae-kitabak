@@ -42,6 +42,7 @@ const router = new VueRouter({
 Vue.component('navbar-component', require('./components/layouts/NavbarComponent.vue').default);
 Vue.component('footer-component', require('./components/layouts/FooterComponent.vue').default);
 Vue.component('category-component', require('./components/CategoryComponent.vue').default);
+Vue.component('all-category-component', require('./components/AllCategoryComponent').default);
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('app-component', require('./App/app.vue').default);

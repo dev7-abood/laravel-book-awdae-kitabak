@@ -43,9 +43,8 @@
             <span slot="next-nav">&gt;</span>
         </pagination>
 
-
-        <div v-html="$t('category_you_are_looking_for_does_not_exist')"
-             class="d-flex justify-content-center h4" v-if="LibrarySearchData.data == ''">
+        <div v-if="LibrarySearchData.data == ''" v-html="$t('category_you_are_looking_for_does_not_exist')"
+             class="d-flex justify-content-center h4">
         </div>
 
         <br><br><br><br><br>
@@ -74,8 +73,8 @@
         methods: {
             getLibrary(page = 1) {
                 this.LibrarySearchData = {};
-                this.libraryMainActive = true;
                 this.inputSearch = '';
+                this.libraryMainActive = true;
                 this.libraryExternalActive = false;
                 this.$Progress.start();
                 this.$store.dispatch('getLibrary',

@@ -87,5 +87,25 @@ class NumberOfBooksController extends Controller
         return abort(404);
     }
 
+    public function totalNumberOfAllCategory(Request $request)
+    {
+
+        $data = Categorie::all('id');
+        $count_number = [];
+        foreach ($data as $cat) {
+            $categorie = Categorie::findOrFail($cat);
+            $librarys_id = $categorie->librarys->map(function ($i) {
+                return $i->pivot->library_id;
+            });
+            $count = 0;
+            foreach ($librarys_id as $id) {
+                $library = Library::findOrFail($id);
+                $count = $library->books->whereNull('user_id')->count() + $count;
+            }
+            $count_number[$cat] = $count;
+        }
+        return response($count_number);
+
+    }
 
 }

@@ -37,7 +37,7 @@
                         <li @click="isActive =!isActive"><img :src="src_logo" class="ml-3 p-1" width="55px"></li>
                         <li @click="isActive =!isActive"><a class="nav-link active-link" href="#"><i class="fas fa-home"></i></a></li>
                         <li @click="isActive =!isActive"><router-link :to="{name : 'my_library'}" class="nav-link">{{$t('my_library')}}</router-link></li>
-                        <li @click="isActive =!isActive"><router-link :to="{name : 'my_library'}" class="nav-link">المساقات الاخري</router-link></li>
+                        <li @click="isActive =!isActive"><router-link :to="{name : 'all_category'}" class="nav-link">{{$t('other_courses')}}</router-link></li>
                         <li @click="isActive =!isActive"><router-link :to="{name : 'my_library'}" class="nav-link">{{$t('usage_policy')}}</router-link></li>
                         <li @click="isActive =!isActive"><router-link :to="{name : 'my_library'}" class="nav-link">{{$t('about_us')}}</router-link></li>
                     </ul>

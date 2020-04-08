@@ -5,9 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Categorie;
 use Illuminate\Http\Request;
+use App\Http\Resources\CategorysResource;
 
 use App\Models\User;
-use App\Models\Library;
 
 
 class CategoryController extends Controller
@@ -22,5 +22,13 @@ class CategoryController extends Controller
         }
         return abort('404');
 
+    }
+
+    public function getAllCategory(Request $request)
+    {
+        if ($request->ajax()) {
+            return Categorie::select('id', 'name', 'img_url')->paginate(6);
+        }
+        return abort('404');
     }
 }
