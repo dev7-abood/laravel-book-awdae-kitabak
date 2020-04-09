@@ -7,8 +7,9 @@
                     <img :src="cat.img_url" class="img-fluid"
                          style="width: 80%">
                     <p class="mt-3 font-weight-bold">{{$t('courses')}} {{cat.name}}</p>
-                    <p class="mt-1">عدد الكتب المتاحة 302</p>
-                    <router-link :to="{ name : 'library' , params : { libraryId : cat.id}}">{{$t('show_books')}}</router-link>
+                    <p v-if="getAllNumberOfAllCategory[cat.id] != 0" class="mt-1">{{$t('number_of_books_available')}} {{getAllNumberOfAllCategory[cat.id]}}</p>
+                    <div v-else class="mt-1">{{$t('sorry_no_books_available')}}</div>
+                    <router-link :to="{ name : 'library' , params : { libraryId : cat.id}}">{{$t('show_courses')}}</router-link>
 
                 </div>
             </div>
@@ -30,7 +31,8 @@
         name: "AllCategoryComponent",
         created(){
             this.$Progress.start();
-            this.$store.dispatch('getCategories' , this.$Progress.finish())
+            this.$store.dispatch('getCategories' , this.$Progress.finish());
+            this.$store.dispatch('getAllNumberOfAllCategory');
         },
         methods: {
             getCategory(page = 1){
@@ -44,6 +46,10 @@
             },
             getAllCategoryPagination(){
                 return this.$store.state.categories.listOfCategories;
+            },
+            getAllNumberOfAllCategory()
+            {
+                return this.$store.state.categories.numberOfCategory;
             }
         }
     }

@@ -6,8 +6,9 @@
                 <img :src="cat.img_url" class="mx-auto d-block p-2" height="300px" width="300px">
                 <div class="text-center">
                     <strong> {{$t('categorie')}} {{cat.name}} </strong>
-                    <div class="mt-1"><span>{{$t('number_of_books_available_for_reservation')}}<span style="font-size: 20px">&nbsp;&nbsp;<strong>{{number_of_books[cat.pivot.categorie_id]}}</strong></span></span></div>
-                    <router-link :to="{ name : 'library' , params : { libraryId : cat.pivot.categorie_id}}" :class="`btn btn-${cat.btn_color} text-white mt-2 mb-3`">{{$t('show_books_available')}}</router-link>
+                    <div v-if="number_of_books[cat.pivot.categorie_id] != 0" class="mt-1"><span>{{$t('number_of_books_available_for_reservation')}}<span style="font-size: 20px">&nbsp;&nbsp;<strong>{{number_of_books[cat.pivot.categorie_id]}}</strong></span></span></div>
+                    <div v-else class="mt-1">{{$t('sorry_no_books_available')}}</div>
+                    <router-link :to="{ name : 'library' , params : { libraryId : cat.pivot.categorie_id}}" :class="`btn btn-${cat.btn_color} text-white mt-2 mb-3`">{{$t('show_courses')}}</router-link>
                 </div>
             </div>
         </div>

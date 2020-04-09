@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
 
         factory(App\Models\Book::class , 100)->create();
+//        factory(App\Models\Library::class , 100)->create();
 
 //        $cate = App\Models\Library::all();
 //

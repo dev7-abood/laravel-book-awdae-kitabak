@@ -21,22 +21,22 @@ use App\Models\Book;
 use Illuminate\Support\Facades\DB;
 
 
-Route::get('/total-books-available',
-    function () {
-      $categorie = Categorie::findOrFail(1);
-      $librarys_id = $categorie->librarys->map(function ($i) {
-            return $i->pivot->library_id;
-        });
-
-
-     $count = 0;
-     foreach ($librarys_id as $id)
-     {
-         $library =  Library::findOrFail($id);
-         $count = $library->books->whereNull('user_id')->count() + $count;
-     }
-     return response(['total_number_of_books_available_for_categorie' => $count]);
-    });
+//Route::get('/total-books-available',
+//    function () {
+//      $categorie = Categorie::findOrFail(1);
+//      $librarys_id = $categorie->librarys->map(function ($i) {
+//            return $i->pivot->library_id;
+//        });
+//
+//
+//     $count = 0;
+//     foreach ($librarys_id as $id)
+//     {
+//         $library =  Library::findOrFail($id);
+//         $count = $library->books->whereNull('user_id')->count() + $count;
+//     }
+//     return response(['total_number_of_books_available_for_categorie' => $count]);
+//    });
 
 
 
@@ -64,7 +64,8 @@ Route::group(['prefix' => '/api/'] , function (){
     Route::get('/number-of-not-available-books-from-library' , ['as' => 'numberOfBooksNotAvailableFromLibrary.index'  , 'uses' => 'API\NumberOfBooksController@numberOfBooksNotAvailableFromLibrary']);
     Route::post('/search-input-library/{id}' , 'API\SearchController@SearchInputLibrary');
     Route::post('/search-type-library/{id}' , 'API\SearchController@SearchLibraryType');
-
+    Route::get('/total-number-of-category' , ['as' => 'totalNumberOfCategory.count' , 'uses' => 'API\NumberOfBooksController@totalNumberOfCategory']);
+    Route::get('/total-number-of-all-category' , ['as' => 'totalNumberOfAllCategory.count' , 'uses' => 'API\NumberOfBooksController@totalNumberOfAllCategory']);
 });
 
 
@@ -88,8 +89,6 @@ Route::get('/library/{id}' , ['as' => 'library.index' , 'uses' => 'LibraryContro
 Route::get('/books/{id_lib}/{id_cta}' , ['as' => 'books.index' , 'uses' => 'API\BookController@index']);
 
 
-Route::get('/api/total-number-of-category' , ['as' => 'totalNumberOfCategory.count' , 'uses' => 'API\NumberOfBooksController@totalNumberOfCategory']);
-Route::get('/api/total-number-of-all-category' , ['as' => 'totalNumberOfAllCategory.count' , 'uses' => 'API\NumberOfBooksController@totalNumberOfAllCategory']);
 
 Route::get('/test/' , function (){
 
@@ -101,10 +100,8 @@ Route::get('/test/' , function (){
 });
 
 Route::get('/test2/' , function (){
-   return Categorie::all();
+    $library =  Library::findOrFail(58);
 
-
-//    $user = User::findOrFail(auth()->id() || auth('api')->id());
-//    return $user->categories;
+    return $library->books->whereNull('temporary_reservation_user_id')->whereNull('reservation_user_id');
 
 });

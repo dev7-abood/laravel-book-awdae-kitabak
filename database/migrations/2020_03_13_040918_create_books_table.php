@@ -20,23 +20,22 @@ class CreateBooksTable extends Migration
             $table->string('img_url');
             $table->enum('status' , ['b' ,'g' , 'e']);
 
-
-
-            $table->unsignedBigInteger('user_id')->nullable()->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
             $table->unsignedBigInteger('owner_user_id')->nullable()->index();
             $table->foreign('owner_user_id')->references('id')->on('users')->onDelete('cascade');
 
+
+            $table->unsignedBigInteger('temporary_reservation_user_id')->nullable()->index();
+            $table->foreign('temporary_reservation_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamp('temporary_reservation_at', 0)->nullable();
+
+
             $table->unsignedBigInteger('reservation_user_id')->nullable()->index();
             $table->foreign('reservation_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamp('reservation_at', 0)->nullable();
 
 
             $table->unsignedBigInteger('library_id')->nullable();
             $table->foreign('library_id')->references('id')->on('librarys');
-
-            $table->timestamp('temporary_reservation_at', 0)->nullable();
-            $table->timestamp('reservation_at', 0)->nullable();
 
             $table->timestamps();
         });

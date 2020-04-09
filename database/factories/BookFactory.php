@@ -13,7 +13,7 @@ $factory->define(Book::class, function (Faker $faker) {
         'library_id' => function(){
             return App\Models\Library::all()->random();
         },
-        'user_id' => function(){
+        'temporary_reservation_user_id' => function(){
             return App\Models\User::all()->random();
         }
     ];

@@ -33,11 +33,11 @@ class NumberOfBooksController extends Controller
                 foreach ($librarys_id as $id)
                 {
                     $library =  Library::findOrFail($id);
-                    $count = $library->books->whereNull('user_id')->count() + $count;
+                    $count = $library->books->whereNull('temporary_reservation_user_id')->whereNull('reservation_user_id')->count() + $count;
                 }
                 $count_number[$cat] = $count;
             }
-            return response($count_number);
+            return response($count_number , 200);
         }
         return abort('404');
     }
@@ -56,7 +56,7 @@ class NumberOfBooksController extends Controller
             }
 
             foreach ($ids as $id){
-                $book = Book::where('library_id' , '=' , $id)->whereNotNull('user_id')->count();
+                $book = Book::where('library_id' , '=' , $id)->whereNotNull('reservation_user_id')->whereNotNull('reservation_user_id')->count();
                 $book_number[$id] = $book;
             }
             return response($book_number , 200);
@@ -79,7 +79,7 @@ class NumberOfBooksController extends Controller
             }
 
             foreach ($ids as $id){
-                $book = Book::where('library_id' , '=' , $id)->whereNull('user_id')->count();
+                $book = Book::where('library_id' , '=' , $id)->whereNull('temporary_reservation_user_id')->whereNull('reservation_user_id')->count();
                 $book_number[$id] = $book;
             }
             return response($book_number , 200);
@@ -89,23 +89,30 @@ class NumberOfBooksController extends Controller
 
     public function totalNumberOfAllCategory(Request $request)
     {
-
-        $data = Categorie::all('id');
-        $count_number = [];
-        foreach ($data as $cat) {
-            $categorie = Categorie::findOrFail($cat);
-            $librarys_id = $categorie->librarys->map(function ($i) {
-                return $i->pivot->library_id;
+        if ($request->ajax())
+        {
+            $data = Categorie::all();
+            $ids_of_cat = $data->map(function ($i){
+                return $i->id;
             });
-            $count = 0;
-            foreach ($librarys_id as $id) {
-                $library = Library::findOrFail($id);
-                $count = $library->books->whereNull('user_id')->count() + $count;
-            }
-            $count_number[$cat] = $count;
-        }
-        return response($count_number);
 
+            foreach ($ids_of_cat as $id_cat)
+            {
+                $categorie = Categorie::findOrFail($id_cat);
+                $librarys_id = $categorie->librarys->map(function ($i) {
+                    return $i->pivot->library_id;
+                });
+                $count = 0;
+                foreach ($librarys_id as $id)
+                {
+                    $library =  Library::findOrFail($id);
+                    $count = $library->books->whereNull('temporary_reservation_user_id')->whereNull('reservation_user_id')->count() + $count;
+                }
+                $count_number[$id_cat] = $count;
+            }
+            return response($count_number , 200);
+        }
+        return abort(404);
     }
 
 }

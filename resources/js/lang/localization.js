@@ -40,7 +40,8 @@ export const i18n = new VueI18n({
             wcs: 'عن اي تصنيف تبحث ؟',
             view_categories: 'عرض التصنيفات',
             category_you_are_looking_for_does_not_exist: 'التصنيف الذي تبحث عنه غير موجود &nbsp;!',
-            other_courses:'المساقات الاخري'
+            other_courses:'المساقات الاخري',
+            show_courses:'عرض المساقات'
         },
         en : {
             hell : 'confirmStudentDataController'
