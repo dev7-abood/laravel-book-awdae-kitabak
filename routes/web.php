@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,65 +12,30 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-use App\Models\User;
+Route::view('/', 'welcome');
 use App\Models\Categorie;
-use App\Models\Library;
-use App\Models\Book;
-use Illuminate\Support\Facades\DB;
-
-
-//Route::get('/total-books-available',
-//    function () {
-//      $categorie = Categorie::findOrFail(1);
-//      $librarys_id = $categorie->librarys->map(function ($i) {
-//            return $i->pivot->library_id;
-//        });
-//
-//
-//     $count = 0;
-//     foreach ($librarys_id as $id)
-//     {
-//         $library =  Library::findOrFail($id);
-//         $count = $library->books->whereNull('user_id')->count() + $count;
-//     }
-//     return response(['total_number_of_books_available_for_categorie' => $count]);
-//    });
-
-
-
-
-
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
-//
+
 Route::get('/category' , ['as' => 'category.index' , 'uses' => 'CategoryController@index']);
-//
+
 Route::group(['prefix' => '/api/'] , function (){
-    Route::post('/logout' , function (Request $request){
-        if ($request->ajax()){
-          auth()->logout();
-        }
-    });
-    Route::get('/category' , ['as' => 'category' , 'uses' => 'API\CategoryController@getCategoryTypeStudent']);
-    Route::get('/all-category' , ['as' => 'all_category' , 'uses' => 'API\CategoryController@getAllCategory']);
-    Route::get('/library/{id}/{vue_capture?}' , ['as' => 'getLibraryTypeStudent.index'  , 'uses' => 'API\LibraryController@getLibraryTypeStudent']);
-    Route::get('/number-of-available-books-from-library' , ['as' => 'numberOfBooksAvailableFromLibrary.index'  , 'uses' => 'API\NumberOfBooksController@numberOfBooksAvailableFromLibrary']);
-    Route::get('/number-of-not-available-books-from-library' , ['as' => 'numberOfBooksNotAvailableFromLibrary.index'  , 'uses' => 'API\NumberOfBooksController@numberOfBooksNotAvailableFromLibrary']);
-    Route::post('/search-input-library/{id}' , 'API\SearchController@SearchInputLibrary');
-    Route::post('/search-type-library/{id}' , 'API\SearchController@SearchLibraryType');
-    Route::get('/total-number-of-category' , ['as' => 'totalNumberOfCategory.count' , 'uses' => 'API\NumberOfBooksController@totalNumberOfCategory']);
-    Route::get('/total-number-of-all-category' , ['as' => 'totalNumberOfAllCategory.count' , 'uses' => 'API\NumberOfBooksController@totalNumberOfAllCategory']);
+    Route::post('logout' , 'API\HelperFunctionsController@logout');
+    Route::get('category' , ['as' => 'category' , 'uses' => 'API\CategoryController@getCategoryTypeStudent']);
+    Route::get('all-category' , ['as' => 'all_category' , 'uses' => 'API\CategoryController@getAllCategory']);
+    Route::get('library/{id}/{vue_capture?}' , ['as' => 'getLibraryTypeStudent.index'  , 'uses' => 'API\LibraryController@getLibraryTypeStudent']);
+    Route::get('number-of-available-books-from-library' , ['as' => 'numberOfBooksAvailableFromLibrary.index'  , 'uses' => 'API\NumberOfBooksController@numberOfBooksAvailableFromLibrary']);
+    Route::get('number-of-not-available-books-from-library' , ['as' => 'numberOfBooksNotAvailableFromLibrary.index'  , 'uses' => 'API\NumberOfBooksController@numberOfBooksNotAvailableFromLibrary']);
+    Route::post('search-input-library/{id}' , 'API\SearchController@SearchInputLibrary');
+    Route::post('search-type-library/{id}' , 'API\SearchController@SearchLibraryType');
+    Route::get('total-number-of-category' , ['as' => 'totalNumberOfCategory.count' , 'uses' => 'API\NumberOfBooksController@totalNumberOfCategory']);
+    Route::get('total-number-of-all-category' , ['as' => 'totalNumberOfAllCategory.count' , 'uses' => 'API\NumberOfBooksController@totalNumberOfAllCategory']);
 });
 
 
 
 Route::group(['prefix' => '/'] , function (){
-    Route::get('/home/{vue_capture?}' , 'WEB\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
+    Route::get('/home/{vue_capture?}' , ['as' => 'home' , 'uses' => 'WEB\VueAppController@index'])->where('vue_capture', '[\/\w\.-]*');
     Route::get('/all-category/{vue_capture?}' , 'WEB\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
     Route::get('/library/{id}/{vue_capture?}' , 'WEB\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
 });
@@ -88,20 +52,16 @@ Route::get('/library/{id}' , ['as' => 'library.index' , 'uses' => 'LibraryContro
 
 Route::get('/books/{id_lib}/{id_cta}' , ['as' => 'books.index' , 'uses' => 'API\BookController@index']);
 
+use App\Http\Resources\CategorysResource;
 
+Route::get('/hell' , function (){
 
-Route::get('/test/' , function (){
-
-//    $job = (new \App\Jobs\TestJob(auth()->id()))->delay(Carbon\Carbon::now()->addSecond(60));
-//
-//    dispatch($job);
-
-  return  App\Models\User::all()->random()->name;
+    $cat = Categorie::paginate(6);
+    return CategorysResource::collection($cat);
 });
 
-Route::get('/test2/' , function (){
-    $library =  Library::findOrFail(58);
 
-    return $library->books->whereNull('temporary_reservation_user_id')->whereNull('reservation_user_id');
+Route::get('oauth/{provider}',  ['as' => 'oAuth' , 'uses' => 'Auth\LoginController@redirectToProvider']);
+Route::get('oauth/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
 
-});
+

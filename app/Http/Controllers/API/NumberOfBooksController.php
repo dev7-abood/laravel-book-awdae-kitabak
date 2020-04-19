@@ -33,7 +33,11 @@ class NumberOfBooksController extends Controller
                 foreach ($librarys_id as $id)
                 {
                     $library =  Library::findOrFail($id);
-                    $count = $library->books->whereNull('temporary_reservation_user_id')->whereNull('reservation_user_id')->count() + $count;
+                    $count = $library->books
+                            ->where('is_published' , '=' , true)
+                            ->whereNull('temporary_reservation_user_id')
+                            ->whereNull('reservation_user_id')
+                            ->count() + $count;
                 }
                 $count_number[$cat] = $count;
             }
@@ -56,7 +60,11 @@ class NumberOfBooksController extends Controller
             }
 
             foreach ($ids as $id){
-                $book = Book::where('library_id' , '=' , $id)->whereNotNull('reservation_user_id')->whereNotNull('reservation_user_id')->count();
+                $book = Book::where('library_id' , '=' , $id)
+                    ->where('is_published' , '=' , true)
+                    ->whereNotNull('reservation_user_id')
+                    ->whereNotNull('reservation_user_id')
+                    ->count();
                 $book_number[$id] = $book;
             }
             return response($book_number , 200);
@@ -79,7 +87,11 @@ class NumberOfBooksController extends Controller
             }
 
             foreach ($ids as $id){
-                $book = Book::where('library_id' , '=' , $id)->whereNull('temporary_reservation_user_id')->whereNull('reservation_user_id')->count();
+                $book = Book::where('library_id' , '=' , $id)
+                    ->where('is_published' , '=' , true)
+                    ->whereNull('temporary_reservation_user_id')
+                    ->whereNull('reservation_user_id')
+                    ->count();
                 $book_number[$id] = $book;
             }
             return response($book_number , 200);
@@ -106,7 +118,11 @@ class NumberOfBooksController extends Controller
                 foreach ($librarys_id as $id)
                 {
                     $library =  Library::findOrFail($id);
-                    $count = $library->books->whereNull('temporary_reservation_user_id')->whereNull('reservation_user_id')->count() + $count;
+                    $count = $library->books
+                            ->where('is_published' , '=' , true)
+                            ->whereNull('temporary_reservation_user_id')
+                            ->whereNull('reservation_user_id')
+                            ->count() + $count;
                 }
                 $count_number[$id_cat] = $count;
             }

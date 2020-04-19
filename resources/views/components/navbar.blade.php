@@ -35,9 +35,9 @@
                         @endif
                     @else
                         @if(Route::has('register'))
-                            <button type="button" class="btn btn-secondary mr-3">{{__('layout.login')}}</button>
-                            <button type="button"
-                                    class="btn btn-outline-info ml-3 mr-2">{{__('layout.register_new_account')}}</button>
+                            <a href="/login" class="btn btn-secondary mr-3">{{__('layout.login')}}</a>
+                            <a href="/register"
+                                    class="btn btn-outline-info ml-3 mr-2">{{__('layout.register_new_account')}}</a>
                         @endif
                     @endauth
                 @endif

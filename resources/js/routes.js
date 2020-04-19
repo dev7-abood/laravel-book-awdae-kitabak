@@ -1,6 +1,6 @@
 import Library from "./components/LibraryComponent";
 import AllCategory from "./components/AllCategoryComponent"
-
+import books from "./components/BookComponent"
 
 export const routes = [
     {
@@ -17,5 +17,10 @@ export const routes = [
         path : '/all-category',
         name : 'all_category',
         component : AllCategory
+    },
+    {
+        path : '/book/:booksId',
+        name : 'books',
+        component : books
     }
 ];

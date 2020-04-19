@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\API\HelperFunctionsController;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+//use Socialite;
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
+
 
 class LoginController extends Controller
 {
@@ -40,4 +48,87 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+
+    public function login(Request $request)
+
+    {
+
+        $input = $request->all();
+
+
+        $this->validate($request, [
+
+            'iug_id' => 'required',
+            'password' => 'required',
+
+        ]);
+
+
+        $fieldType = filter_var($request->input('iug_id'), FILTER_VALIDATE_EMAIL) ? 'email' : 'iug_id';
+
+        if (auth()->attempt(array($fieldType => $input['iug_id'], 'password' => $input['password']))) {
+
+            return redirect()->route('home');
+
+        } else {
+
+            return redirect()->route('login')
+                ->with('error', 'Email-Address And Password Are Wrong.');
+
+        }
+    }
+
+    /**
+     * Redirect the user to the GitHub authentication page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function redirectToProvider($provider)
+    {
+        if ($provider == 'facebook' || $provider == 'google')
+        {
+            return Socialite::driver($provider)->redirect();
+        }
+        else
+        {
+            return abort(404);
+        }
+    }
+
+    /**
+     * Obtain the user information from GitHub.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function handleProviderCallback($provider)
+    {
+        try
+        {
+            $user_social = Socialite::driver($provider)->user();
+
+            $findUser = User::where('email' , '=' , $user_social->getEmail())->first();
+
+            if ($findUser)
+            {
+                Auth::login($findUser);
+                return redirect()->route('home');
+            }
+            else {
+                $user = new User();
+                $user->name            = $user_social->getName();
+                $user->social_platform = $provider;
+                $user->social_id       = $user_social->getId();
+                $user->email           = $user_social->getEmail();
+                $user->password        = Hash::make($user_social->getEmail().$user_social->getId().'852258');
+                $user->save();
+
+                Auth::login($user);
+                return redirect()->route('confirm_student_data.index');
+            }
+        }
+        catch (\Exception $exception)
+        {
+            return $this->redirectToProvider($provider);
+        }
+    }
 }

@@ -29,10 +29,9 @@
                     <P v-else style="color: #b2bec3">{{$t('there_are_no_books_reserved')}}</P>
                     <router-link
                         v-if="numberOfAvailableBooks[lib.pivot.library_id] !== 0 && numberOfAvailableBooks.hasOwnProperty(lib.pivot.library_id)"
-                        to="/" class="btn btn-link text-danger">{{$t('show_books')}}
+                        :to="{ name : 'books' , params : { booksId : lib.pivot.library_id}}" class="btn btn-link text-danger">{{$t('show_books')}}
                     </router-link>
-                    <router-link v-else to="/" class="btn btn-link text-danger disabled">{{$t('show_books')}}
-                    </router-link>
+                    <router-link v-else to="/" class="btn btn-link text-danger disabled">{{$t('show_books')}}</router-link>
                 </div>
             </div>
         </div>
