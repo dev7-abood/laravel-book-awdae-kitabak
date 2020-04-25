@@ -12,7 +12,7 @@
                     <h5 class="text-center">{{__('layout.create_new_account')}}</h5>
                     <form>
                         <div class="input-group mt-3">
-                            <input name="email" type="email" class="form-control @error('email') is-invalid @enderror" required placeholder="{{__('layout.email')}}" style="border-radius: 20px"/>
+                            <input name="email" type="email" value="{{old('email')}}" class="form-control @error('email') is-invalid @enderror" required placeholder="{{__('layout.email')}}" style="border-radius: 20px"/>
                             @error('email')
                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

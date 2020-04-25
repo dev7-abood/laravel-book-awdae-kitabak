@@ -14,16 +14,13 @@ class CategoryController extends Controller
 {
     public function getCategoryTypeStudent(Request $request)
     {
-        if ($request->ajax())
-        {
-            $user = User::findOrFail(auth()->id() || auth('api')->id());
+        if ($request->ajax()) {
+            $user = User::findOrFail(auth()->id() ? auth()->id() : auth('api')->id());
             $category = $user->categories;
             return response($category, 200);
         }
         return abort('404');
-
     }
-
     public function getAllCategory(Request $request)
     {
         if ($request->ajax()) {

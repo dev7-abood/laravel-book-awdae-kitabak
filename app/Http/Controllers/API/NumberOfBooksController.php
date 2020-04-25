@@ -17,7 +17,7 @@ class NumberOfBooksController extends Controller
         if ($request->ajax())
         {
 
-            $user = User::findOrFail(auth()->id() || auth('api')->id());
+            $user = User::findOrFail(auth()->id() ? auth()->id() : auth('api')->id());
             $category = $user->categories;
             $data = $category->map(function ($i){
                 return $i->pivot->categorie_id;
@@ -35,8 +35,8 @@ class NumberOfBooksController extends Controller
                     $library =  Library::findOrFail($id);
                     $count = $library->books
                             ->where('is_published' , '=' , true)
-                            ->whereNull('temporary_reservation_user_id')
-                            ->whereNull('reservation_user_id')
+                            ->whereNull('t_handed_user_id')
+                            ->whereNull('handed_in_user_id')
                             ->count() + $count;
                 }
                 $count_number[$cat] = $count;
@@ -62,8 +62,8 @@ class NumberOfBooksController extends Controller
             foreach ($ids as $id){
                 $book = Book::where('library_id' , '=' , $id)
                     ->where('is_published' , '=' , true)
-                    ->whereNotNull('reservation_user_id')
-                    ->whereNotNull('reservation_user_id')
+                    ->whereNotNull('t_handed_user_id')
+                    ->whereNotNull('handed_in_user_id')
                     ->count();
                 $book_number[$id] = $book;
             }
@@ -89,8 +89,8 @@ class NumberOfBooksController extends Controller
             foreach ($ids as $id){
                 $book = Book::where('library_id' , '=' , $id)
                     ->where('is_published' , '=' , true)
-                    ->whereNull('temporary_reservation_user_id')
-                    ->whereNull('reservation_user_id')
+                    ->whereNull('t_handed_user_id')
+                    ->whereNull('handed_in_user_id')
                     ->count();
                 $book_number[$id] = $book;
             }
@@ -120,8 +120,8 @@ class NumberOfBooksController extends Controller
                     $library =  Library::findOrFail($id);
                     $count = $library->books
                             ->where('is_published' , '=' , true)
-                            ->whereNull('temporary_reservation_user_id')
-                            ->whereNull('reservation_user_id')
+                            ->whereNull('t_handed_user_id')
+                            ->whereNull('handed_in_user_id')
                             ->count() + $count;
                 }
                 $count_number[$id_cat] = $count;

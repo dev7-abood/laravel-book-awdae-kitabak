@@ -18,10 +18,10 @@
                         <div class="input-group">
                             <input name="first_name" type="text"
                                    class="form-control @error('first_name') is-invalid @enderror col-6"
-                                   placeholder="{{__('confirm_student_data.first_name')}}"/>
+                                   placeholder="{{__('confirm_student_data.first_name')}}" value="{{old('first_name')}}"/>
                             <input name="last_name" type="text"
                                    class="form-control @error('last_name') is-invalid @enderror col-6 mr-1"
-                                   placeholder="{{__('confirm_student_data.last_name')}}"/>
+                                   placeholder="{{__('confirm_student_data.last_name')}}" value="{{old('last_name')}}"/>
                         </div>
                         <div class="row">
                             @error('first_name')
@@ -42,10 +42,10 @@
                         <div class="input-group mt-3">
                             <input name="iug_id" type="text"
                                    class="form-control @error('iug_id') is-invalid @enderror col-6"
-                                   placeholder="{{__('confirm_student_data.id_student')}}"/>
+                                   placeholder="{{__('confirm_student_data.id_student')}}" value="{{old('iug_id')}}"/>
                             <input name="phone" type="text"
                                    class="form-control @error('phone') is-invalid @enderror col-6 mr-1"
-                                   placeholder="{{__('confirm_student_data.phone_number')}}"/>
+                                   placeholder="{{__('confirm_student_data.phone_number')}}" value="{{old('phone')}}"/>
                         </div>
                         <div class="row">
                             @error('iug_id')

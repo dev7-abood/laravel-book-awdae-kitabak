@@ -8,10 +8,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-//use Socialite;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 
 
@@ -62,11 +60,12 @@ class LoginController extends Controller
             'password' => 'required',
 
         ]);
+        $remember_me = $request->has('remember');
 
 
         $fieldType = filter_var($request->input('iug_id'), FILTER_VALIDATE_EMAIL) ? 'email' : 'iug_id';
 
-        if (auth()->attempt(array($fieldType => $input['iug_id'], 'password' => $input['password']))) {
+        if (auth()->attempt([$fieldType => $input['iug_id'], 'password' => $input['password']] , $remember_me)) {
 
             return redirect()->route('home');
 
@@ -81,7 +80,7 @@ class LoginController extends Controller
     /**
      * Redirect the user to the GitHub authentication page.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|void
      */
     public function redirectToProvider($provider)
     {
@@ -98,7 +97,7 @@ class LoginController extends Controller
     /**
      * Obtain the user information from GitHub.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\RedirectResponse|void
      */
     public function handleProviderCallback($provider)
     {
@@ -119,7 +118,7 @@ class LoginController extends Controller
                 $user->social_platform = $provider;
                 $user->social_id       = $user_social->getId();
                 $user->email           = $user_social->getEmail();
-                $user->password        = Hash::make($user_social->getEmail().$user_social->getId().'852258');
+                $user->password        = '';
                 $user->save();
 
                 Auth::login($user);

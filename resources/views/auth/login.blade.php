@@ -15,13 +15,13 @@
                         <h5 class="text-center mb-4 mt-2">{{__('layout.login')}}</h5>
 
                         <div class="form-group">
-                            <input type="iug_id" name="iug_id" class="form-control" placeholder="{{__('layout.email_or_iug_id')}}"  style="border-radius: 20px"/>
+                            <input type="iug_id" name="iug_id" class="form-control" placeholder="{{__('layout.email_or_iug_id')}}" value="{{old('iug_id')}}"  style="border-radius: 20px"/>
                         </div>
                         <div class="input-group mt-3">
-                            <input type="password" name="password" class="form-control" placeholder="{{__('layout.password')}}" style="border-radius: 20px"/>
+                            <input type="password" name="password" class="form-control" value="{{old('password')}}" placeholder="{{__('layout.password')}}" style="border-radius: 20px"/>
                         </div>
                         <div class="checkbox d-flex mt-3 justify-content-between">
-                            <label><input class="ml-2" type="checkbox" value="">{{__('layout.remember_me')}}</label>
+                            <label><input class="ml-2" type="checkbox" name="remember" value="">{{__('layout.remember_me')}}</label>
                             <a href="#">{{__('layout.forget_password')}}</a>
 
                         </div>

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome');
 use App\Models\Categorie;
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/category' , ['as' => 'category.index' , 'uses' => 'CategoryController@index']);
 
