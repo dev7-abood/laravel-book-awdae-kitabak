@@ -10,7 +10,7 @@ use Carbon\Carbon;
 $factory->define(Book::class, function (Faker $faker) {
     return [
         'name' => $faker->firstName . Str::random(3),
-        'ispn' => $faker->isbn10,
+        'isbn' => $faker->isbn10,
         'status' => $faker->randomElement(['b' ,'g' , 'e']),
         'library_id' => function(){
             return App\Models\Library::all()->random();

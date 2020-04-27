@@ -54,11 +54,7 @@ Route::get('/books/{id_lib}/{id_cta}' , ['as' => 'books.index' , 'uses' => 'API\
 
 use App\Http\Resources\CategorysResource;
 
-Route::get('/hell' , function (){
-
-    $cat = Categorie::paginate(6);
-    return CategorysResource::collection($cat);
-});
+Route::get('/hell' , 'API\BookController@getBooks');
 
 
 Route::get('oauth/{provider}',  ['as' => 'oAuth' , 'uses' => 'Auth\LoginController@redirectToProvider']);
