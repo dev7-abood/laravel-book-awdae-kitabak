@@ -46,8 +46,12 @@
             <nav>
                 <ul class="nav-ul hide-ul">
                     <li><img src="{{asset('img/logo/logo_white.png')}}" class="ml-3 p-1" width="55px"></li>
-                    <li><a class="nav-link active-link" href="#"><i class="fas fa-home"></i></a></li>
+                    <li><a class="nav-link active-link" href="{{url('/')}}"><i class="fas fa-home"></i></a></li>
+                    @if(Route::has('login'))
+                    @auth
                     <li><a class="nav-link" href="#">{{__('layout.categories')}}</a></li>
+                    @endauth
+                    @endif
                     <li><a class="nav-link" href="#">{{__('layout.usage_policy')}}</a></li>
                     <li><a class="nav-link" href="#">{{__('layout.about_us')}}</a></li>
                 </ul>

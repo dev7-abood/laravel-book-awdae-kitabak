@@ -8,7 +8,6 @@
 @yield('content')
 </main>
 <x-footer/>
-
 <script src="{{'/js/main_script/navbar.js'}}"></script>
 @yield('script')
 </body>
