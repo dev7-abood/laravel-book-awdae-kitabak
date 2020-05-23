@@ -18,12 +18,11 @@ class BookResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'status' => $this->status,
             'isbn' => $this->isbn,
             'img_url' => $this->img_url,
             'handed_in_at' => $this->handed_in_at->diffForHumans(),
             'created_at' => $this->created_at->diffForHumans(),
-
-//                ->diffForHumans(),
         ];
     }
 }

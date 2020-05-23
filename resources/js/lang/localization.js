@@ -41,7 +41,11 @@ export const i18n = new VueI18n({
             view_categories: 'عرض التصنيفات',
             category_you_are_looking_for_does_not_exist: 'التصنيف الذي تبحث عنه غير موجود &nbsp;!',
             other_courses:'المساقات الاخري',
-            show_courses:'عرض المساقات'
+            show_courses:'عرض المساقات',
+            status:'الحالة',
+            good:'جيد',
+            bade:'سئ',
+            excellent:'ممتاز'
         },
         en : {
             hell : 'confirmStudentDataController'

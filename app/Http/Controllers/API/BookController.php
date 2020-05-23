@@ -11,14 +11,19 @@ use App\Http\Resources\BookResource;
 
 class BookController extends Controller
 {
-    public function getBooks()
+    public function getBooks($id , Request $request)
     {
-        $library = Library::findOrFail(5);
-        $books = $library->books()
-            ->where('is_published' , '=' , true)
-            ->whereNull('t_handed_user_id')
-            ->whereNull('handed_in_user_id')->paginate(6);
+        if ($request->ajax())
+        {
+            $library = Library::findOrFail($id);
+            $books = $library->books()
+                ->where('is_published' , '=' , true)
+                ->whereNull('t_handed_user_id')
+                ->whereNull('handed_in_user_id')->paginate(6);
 
-        return BookResource::collection($books);
+            return BookResource::collection($books);
+        }
+         return abort(404);
+
     }
 }
