@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Models\Library;
-
 use App\Http\Resources\BookResource;
 
 
@@ -26,4 +26,28 @@ class BookController extends Controller
          return abort(404);
 
     }
+
+
+    public function userTemporaryReservation(Request $request)
+    {
+        if (Book::where('t_handed_user_id' , '=' , auth()->id())->count() < 3)
+        {
+
+            $book = Book::find($request->id);
+            $book->t_handed_user_id = auth()->id();
+            $book->save();
+            return response(['success' => 'تم حجز الكتاب بنجاح!']);
+
+
+        }
+        else {
+            return response(['rejected' => 'لا يمكنك حجز اكثر من ثلاثة كتب!']);
+        }
+
+
+
+//
+    }
+
+
 }

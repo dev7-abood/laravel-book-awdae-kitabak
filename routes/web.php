@@ -36,6 +36,11 @@ Route::group(['prefix' => '/api/' , 'namespace' => 'API'] , function (){
     Route::get('total-number-of-all-category' , ['as' => 'totalNumberOfAllCategory.count' , 'uses' => 'NumberOfBooksController@totalNumberOfAllCategory']);
     Route::get('getBooks/{id}' , 'BookController@getBooks');
 
+
+    Route::post('/user-temporary-reservation' , ['as' => 'store.temporary_id' , 'uses' => 'BookController@userTemporaryReservation']);
+
+
+
 });
 
 
@@ -45,6 +50,8 @@ Route::group(['prefix' => '/'] , function (){
     Route::get('/all-category/{vue_capture?}' , 'WEB\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
     Route::get('/library/{id}/{vue_capture?}' , 'WEB\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
     Route::get('/book/{vue_capture?}' , 'WEB\VueAppController@index')->where('vue_capture', '[\/\w\.-]*');
+    Route::get('/my-profile' , 'API\MyProfileController@index');
+    Route::patch('/update-account' , ['as' => 'update.my-account' , 'uses' =>'API\MyProfileController@update']);
 });
 
 
@@ -55,25 +62,13 @@ Route::group(['prefix' => '/confirm-student-data'] , function (){
 
 
 Route::get('/library/{id}' , ['as' => 'library.index' , 'uses' => 'LibraryController@index']);
-
-
-//Route::get('/books/{id_lib}/{id_cta}' , ['as' => 'books.index' , 'uses' => 'API\BookController@index']);
-
-use App\Http\Resources\CategorysResource;
-
-
-
 Route::get('oauth/{provider}',  ['as' => 'oAuth' , 'uses' => 'Auth\LoginController@redirectToProvider']);
 Route::get('oauth/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
 
 
-Route::view('/go' , 'hell');
 
 
 
 
-Route::get('yes' , function (){
-    broadcast(new MassageEvent('fgf'));
-});
 
 

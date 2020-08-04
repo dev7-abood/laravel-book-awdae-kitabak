@@ -8,6 +8,8 @@ import store from './store/index';
 import {routes} from './routes';
 import {i18n} from "./lang/localization";
 import VueProgressBar from 'vue-progressbar'
+import VueSweetalert2 from 'vue-sweetalert2';
+
 
 const options = {
     color: '#00cec9',
@@ -28,6 +30,8 @@ Vue.use(VueProgressBar, options);
 Vue.use(Vuex);
 
 Vue.use(VueRouter);
+Vue.use(VueSweetalert2);
+
 
 const router = new VueRouter({
     routes,
